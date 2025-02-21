@@ -32,8 +32,8 @@
                                             </ul>
                                         </div>
                                         <div class="btn-transform transform-vertical">
-                                            <div><a href="#" class="item item-1 redbtn">more detail</a></div>
-                                            <div><a href= "#" class="item item-2 redbtn hvrbtn">more detail</a>
+                                            <div><a href="{{ url('/movie/single/'.$banner->slug) }}" class="item item-1 redbtn">more detail</a></div>
+                                            <div><a href= "{{ url('/movie/single/'.$banner->slug) }}" class="item item-2 redbtn hvrbtn">more detail</a>
                                             </div>
                                         </div>
                                     </div>

@@ -38,4 +38,11 @@
         height: 529px !important;
         background: #333;
     }
+
+    .sliderv2 .movie-item .title-in .redbtn {
+        font-size: 11px !important;
+    }
+    .movie-items .movie-item .hvr-inner a{
+        font-size: 11px !important;
+    }
 </style>
