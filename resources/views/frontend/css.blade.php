@@ -1,4 +1,11 @@
 <style>
+    header .navbar-default .navbar-nav .dropdown .dropdown-menu.level1 li a:hover{
+        color: #dd003f !important;
+    }
+    .tab-bawah{
+        margin-top: -86px;
+        margin-bottom: -46px;
+    }
     .little-movie {
         width: 107px !important;
         height: 130px;
@@ -6,7 +13,7 @@
 
     .movie-poster {
         height: 246px !important;
-        object-fit: fill !important;
+        object-fit: cover !important;
     }
 
     .list-poster {

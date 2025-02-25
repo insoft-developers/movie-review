@@ -163,41 +163,15 @@
                             </a>
                         </li>
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
-                                data-hover="dropdown">
-                                Anime<i class="fa fa-angle-down" aria-hidden="true"></i>
+                            <a href="{{ url('/movie/anime') }}" class="btn btn-default">
+                                Anime
                             </a>
-                            <ul class="dropdown-menu level1">
-
-                                <li><a href="moviegrid.html">Movie</a></li>
-                                <li><a href="moviegrid.html">TV</a></li>
-                              
-                            </ul>
                         </li>
+                        
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
-                                data-hover="dropdown">
-                                Drama <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            <a href="{{ url('/movie/all') }}" class="btn btn-default">
+                                Movies
                             </a>
-                            <ul class="dropdown-menu level1">
-                                @php
-                                    $sub = \App\Models\SubCategory::where('category_slug','drama')->get();
-                                @endphp
-                                @foreach($sub as $s)
-                                <li><a href="celebritygrid01.html">{{ $s->subcategory_name }}</a></li>
-                                @endforeach
-                            </ul>
-                        </li>
-                        <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
-                                data-hover="dropdown">
-                                Movies <i class="fa fa-angle-down" aria-hidden="true"></i>
-                            </a>
-                            <ul class="dropdown-menu level1">
-                                <li><a href="{{ url('/movie/all') }}">All Movie</a></li>
-                                <li><a href="bloggrid.html">By Genre</a></li>
-                                <li class="it-last"><a href="#">By Year</a></li>
-                            </ul>
                         </li>
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
@@ -205,9 +179,14 @@
                                 TV Show <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
-                                <li><a href="userfavoritegrid.html">All TV Show</a></li>
-                                <li><a href="userfavoritelist.html">Genre</a></li>
-                                <li><a href="userprofile.html">On Going</a></li>
+                                @php
+                                    $sub = \App\Models\SubCategory::where('category_slug', 'tv-show')->get();
+                                @endphp
+                                @foreach($sub as $s)
+                                <li class="list-menu"><a href="userfavoritegrid.html">{{ $s->subcategory_name }}</a></li>
+                                @endforeach
+                                <li class="list-menu"><a href="{{ url('/movie/tv-show') }}">All TV Show</a></li>
+                               
                                 
                             </ul>
                         </li>
@@ -222,15 +201,16 @@
                             </a>
                         </li>
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
-                                data-hover="dropdown">
-                                Other <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            <a href="{{ url('/') }}" class="btn btn-default">
+                                Simple Search
                             </a>
-                            <ul class="dropdown-menu level1">
-                                <li><a href="userfavoritegrid.html">Other</a></li>
-                                
-                            </ul>
                         </li>
+                        <li class="dropdown first">
+                            <a href="{{ url('/') }}" class="btn btn-default">
+                                Advance Search
+                            </a>
+                        </li>
+                       
                     </ul>
                     
                 </div>

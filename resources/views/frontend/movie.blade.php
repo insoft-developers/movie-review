@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="mv-item-infor">
                                     <h6><a href="#">{{ $m->title }}</a></h6>
-                                    <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
+                                    <p class="rate"><i class="ion-android-star"></i><span>{{ $m->imdb_rating }}</span> /10</p>
                                 </div>
                             </div>
                         @endforeach

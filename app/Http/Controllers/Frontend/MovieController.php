@@ -17,9 +17,12 @@ class MovieController extends Controller
         } else if($category == 'popular') {
             $movie = MovieList::where('is_popular', 1)->get();
             $judul = 'Popular Movie';
-        } else if($category == 'new') {
-            $movie = MovieList::where('is_new', 1)->get();
-            $judul = 'New Added Movie';
+        } else if($category == 'anime') {
+            $movie = MovieList::where('is_anime', 1)->get();
+            $judul = 'Anime Movie';
+        } else {
+            $movie = MovieList::where('category', $category)->get();
+            $judul = 'Anime Movie';
         }
         
         return view('frontend.movie', compact('view','movie','judul'));

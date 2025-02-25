@@ -89,11 +89,8 @@
 
                     </div>
                 </div>
-                <div class="title-hd">
-                    <h2>NEW ADDED</h2>
-                    <a href="{{ url('movie/new') }}" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
-                </div>
-                <div class="tabs">
+                
+                <div class="tabs tab-bawah">
 
                     <div class="tab-content">
                         <div id="tab21-h2" class="tab active">
@@ -127,7 +124,7 @@
         </div>
     </div>
 
-    <div class="trailers full-width" style="margin-bottom: -80px;margin-top:-40px;">
+    {{-- <div class="trailers full-width" style="margin-bottom: -80px;margin-top:-40px;">
         <div class="row ipad-width">
             <div class="col-md-8 col-sm-12 col-xs-12">
               
@@ -200,7 +197,7 @@
             </div>
         </div>
 
-    </div>
+    </div> --}}
 
 	<div class="page-single movie_list">
         <div class="container">
@@ -220,7 +217,7 @@
                                         <a href="movielist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
                                         <a  href="moviegrid.html" class="grid"><i class="ion-grid"></i></a>
                                 </div>
-								@foreach($movie as $m)
+								@foreach($mlist as $m)
                                 <div class="movie-item-style-2">
                                         <img class="list-poster" src="{{ $m->poster }}" alt="">
                                         <div class="mv-item-infor">
@@ -240,10 +237,7 @@
                                                 <option value="saab">10 Movies</option>
                                         </select>
                                         <div class="pagination2">
-                                                <span>Page 1 of 2:</span>
-                                                <a class="active" href="#">1</a>
-                                                <a href="#">2</a>
-                                                <a href="#"><i class="ion-arrow-right-b"></i></a>
+                                                {{ $mlist->onEachSide(5)->links() }}
                                         </div>
                                 </div>
                         </div>

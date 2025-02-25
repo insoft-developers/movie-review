@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\BE_HomeController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MovieController;
 use App\Http\Controllers\ProfileController;
@@ -25,9 +26,6 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/movie/{category}', [MovieController::class, 'index']);
 Route::get('/movie/single/{title}', [MovieController::class, 'single']);
 
-
-
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -37,5 +35,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+
+
+Route::group(['prefix' => 'mvadmin'], function () {
+    Route::get('/', [BE_HomeController::class, 'index']);
+});
+
+
 
 require __DIR__.'/auth.php';

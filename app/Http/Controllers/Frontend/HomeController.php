@@ -13,9 +13,10 @@ class HomeController extends Controller
         $view = 'home';
         $popular = MovieList::where('is_popular', 1)->get();
         $banners = MovieList::where('is_banner', 1)->get();
-        $new = MovieList::where('is_new', 1)->get();
+        $new = MovieList::where('is_popular', 1)->orderBy('id','desc')->get();
         $movie = MovieList::all();
-        return view('frontend.home', compact('view','popular','banners','new','movie'));
+        $mlist = MovieList::paginate(5);
+        return view('frontend.home', compact('view','popular','banners','new','movie','mlist'));
     }
 
     public function get_movie($id)
