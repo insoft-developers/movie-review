@@ -3,8 +3,8 @@
         color: #dd003f !important;
     }
     .tab-bawah{
-        margin-top: -86px;
-        margin-bottom: -46px;
+        margin-top: -26px;
+        margin-bottom: -26px;
     }
     .little-movie {
         width: 107px !important;
