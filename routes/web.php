@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Backend\BE_HomeController;
 use App\Http\Controllers\Backend\BE_MovieController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MovieController;
 use App\Http\Controllers\ProfileController;
@@ -25,6 +27,7 @@ Route::get('get_movie/{id}', [HomeController::class, 'get_movie']);
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/movie/{category}', [MovieController::class, 'index']);
+Route::get('/moviesub/{category}/{sub}', [MovieController::class, 'sub']);
 Route::get('/movie/single/{title}', [MovieController::class, 'single']);
 
 Route::get('/dashboard', function () {
@@ -46,6 +49,12 @@ Route::group(['prefix' => 'mvadmin'], function () {
     Route::resource('/movie', BE_MovieController::class);
     Route::get('/movie_table', [BE_MovieController::class, 'movie_table'])->name('movie.table');
     Route::post('/get_sub_category', [BE_MovieController::class, 'get_sub_category']);
+
+    Route::resource('/category', CategoryController::class);
+    Route::get('/category_table', [CategoryController::class, 'category_table'])->name('category.table');
+
+    Route::resource('/subcategory', SubCategoryController::class);
+    Route::get('/subcategory_table', [SubCategoryController::class, 'subcategory_table'])->name('subcategory.table');
 });
 
 

@@ -12,7 +12,7 @@ class HomeController extends Controller
     {
         $view = 'home';
         $popular = MovieList::where('is_popular', 1)->get();
-        $banners = MovieList::where('is_banner', 1)->get();
+        $banners = MovieList::where('is_banner', 1)->orderBy('id','desc')->get();
         $new = MovieList::where('is_popular', 1)->orderBy('id','desc')->get();
         $movie = MovieList::all();
         $mlist = MovieList::paginate(25);

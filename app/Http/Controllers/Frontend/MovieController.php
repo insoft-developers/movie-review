@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\MovieList;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -22,8 +24,22 @@ class MovieController extends Controller
             $judul = 'Anime Movie';
         } else {
             $movie = MovieList::where('category', $category)->get();
-            $judul = 'Anime Movie';
+            $judul = $category;
         }
+        
+        return view('frontend.movie', compact('view','movie','judul'));
+    }
+
+
+    public function sub($category, $sub)
+    {
+        $view = 'sub-movie';
+       
+            $movie = MovieList::where('category', $category)->where('sub_category', $sub)->get();
+            $ct = Category::where('slug', $category)->first();
+            $sb = SubCategory::where('slug', $sub)->first();
+            $judul = $ct->category_name.' - '.$sb->subcategory_name;
+       
         
         return view('frontend.movie', compact('view','movie','judul'));
     }

@@ -31,13 +31,13 @@
                 </a>
             </li>
             <li>
-                <a href="pages/apps/chat.html">
+                <a href="{{ url('mvadmin/category') }}">
                     <i class="icofont-cubes"></i>
                     <span class="link-title">Category List</span>
                 </a>
             </li>
             <li>
-                <a href="pages/apps/chat.html">
+                <a href="{{ url('mvadmin/subcategory') }}">
                     <i class="icofont-dice-multiple"></i>
                     <span class="link-title">Sub Category List</span>
                 </a>

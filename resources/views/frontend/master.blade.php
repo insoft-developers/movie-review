@@ -183,7 +183,7 @@
                                     $sub = \App\Models\SubCategory::where('category_slug', 'tv-show')->get();
                                 @endphp
                                 @foreach($sub as $s)
-                                <li class="list-menu"><a href="userfavoritegrid.html">{{ $s->subcategory_name }}</a></li>
+                                <li class="list-menu"><a href="{{ url('/moviesub/'.$s->category_slug.'/'.$s->slug) }}">{{ $s->subcategory_name }}</a></li>
                                 @endforeach
                                 <li class="list-menu"><a href="{{ url('/movie/tv-show') }}">All TV Show</a></li>
                                
