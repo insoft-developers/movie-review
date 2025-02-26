@@ -72,7 +72,7 @@
     <!-- End Main Content -->
 
 
-    <div class="modal fade" tabindex="-1" id="modal-tambah">
+    <div class="modal fade"  id="modal-tambah">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="form-tambah" method="POST" enctype="multipart/form-data">
@@ -84,6 +84,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" id="id" name="id">
                         <div class="form-group mb-4">
                             <label for="imdb_id" class="mb-2 bold">IMDB ID</label>
                             <input type="text" class="theme-input-style" id="imdb_id" name="imdb_id"
@@ -167,7 +168,7 @@
                             </div>
                             <div class="form-group mb-4">
                                 <label for="download" class="mb-2 bold d-block">Download Text</label>
-                                <textarea id="download" name="download" class="theme-input-style" placeholder="Enter Download Text"></textarea>
+                                <textarea id="download" name="download"  placeholder="Enter Download Text"></textarea>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="is_banner" class="mb-2 bold d-block">Use In Banner</label>

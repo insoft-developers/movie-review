@@ -436,6 +436,8 @@
     <script src="{{ asset('template/backend') }}/assets/plugins/apex/custom-apexcharts.js"></script>
     
     <script src="{{ asset('template/backend') }}/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
     <!-- ======= End BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS ======= -->
 
     

@@ -1,5 +1,10 @@
 @if ($view == 'movie-list')
     <script>
+       
+            CKEDITOR.replace('download');
+        
+        
+
         function tambah() {
             save_method = "add";
             $('input[name=_method]').val('POST');
@@ -142,7 +147,8 @@
             if (save_method == "add") url = "{{ url('/mvadmin/movie') }}";
             else url = "{{ url('/mvadmin/movie') . '/' }}" + id;
             var form = new FormData($('#modal-tambah form')[0]);
-            
+            var download_text = CKEDITOR.instances.download.getData();
+            form.append('download', download_text);
             $.ajax({
                 url: url,
                 type: "POST",
@@ -193,7 +199,10 @@
                     $("#writer").val(data.writer);
                     $("#actors").val(data.actors);
                     $("#plot").val(data.plot);
-                    $("#download").val(data.download);
+                    $("#category").val(data.category);
+                    change_category(data.category, data.sub_category);
+                    
+                    CKEDITOR.instances.download.setData(data.download);
                     $("#is_banner").val(data.is_banner);
                     $("#is_popular").val(data.is_popular);
                     $("#is_new").val(data.is_new);
@@ -232,6 +241,35 @@
                     }
                 })
             }
+        }
+
+
+        $("#category").change(function(){
+            var cat = $(this).val();
+            change_category(cat, null);
+        });
+
+
+        function change_category(cat, selected) {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ url('mvadmin/get_sub_category') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {"cat":cat, "_token":csrf_token},
+                success: function(data) {
+                    var html = '';
+                    html += '<option value=""> - Pilih - </option>';
+                    for(var i=0; i<data.length; i++) {
+                        html += '<option value="'+data[i].slug+'">'+data[i].subcategory_name+'</option>';
+                    }
+                    $("#sub_category").html(html);
+                    if(selected !== null) {
+                        $("#sub_category").val(selected);
+                    }
+
+                }
+            });
         }
     </script>
 @endif

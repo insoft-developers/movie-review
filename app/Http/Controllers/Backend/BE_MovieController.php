@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\MovieList;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -147,7 +148,63 @@ class BE_MovieController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $input = $request->all();
+
+        $rules = [
+            'id' => 'required',
+            'imdb_id' => 'required',
+            'poster'=> 'required',
+            'title' => 'required',
+            'category' => 'required',
+            'sub_category' => 'required',
+            'year' => 'required',
+            'rated' => 'required',
+            'released' => 'required',
+            'run_time' => 'required',
+            'genre' => 'required',
+            'director' => 'required',
+            'writer' => 'required',
+            'actors' => 'required',
+            'plot' => 'required',
+            'download' => 'required',
+            'is_banner' => 'required',
+            'is_popular' => 'required',
+            'is_new' => 'required',
+            'is_anime' => 'required',
+            'imdb_rating' => 'required',
+            'type' => 'required',
+            'slug' => 'required'
+        ];
+
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $pesan = $validator->errors();
+            $pesanarr = explode(',', $pesan);
+            $find = ['[', ']', '{', '}'];
+            $html = '';
+            foreach ($pesanarr as $p) {
+                $html .= str_replace($find, '', $p) . '<br>';
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $html,
+            ]);
+        }
+
+        $movie = MovieList::findorFail($id);
+        $movie->update($input);
+        return response()->json([
+            'success' => true,
+            'message' => 'success',
+        ]);
+
+    }
+
+
+    public function get_sub_category(Request $request) {
+        $input = $request->all();
+        $data = SubCategory::where('category_slug', $input['cat'])->get();
+        return $data;
     }
 
     /**

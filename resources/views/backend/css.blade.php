@@ -1,4 +1,8 @@
 <style>
+    .cke_notifications_area {
+        display: none !important;
+    }
+
     .dt-search {
         float: right;
        margin-bottom: 10px;

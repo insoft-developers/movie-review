@@ -136,7 +136,7 @@
                                     </div>
                                     <div id="reviews" class="tab review">
                                         <div class="row">
-                                            
+                                            <?= $movie->download ;?>
                                         </div>
                                     </div>
                                     
