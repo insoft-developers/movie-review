@@ -223,7 +223,7 @@
 
             if (pop === true) {
                 $.ajax({
-                    url: "{{ url('posiadmin/level') }}" + "/" + id,
+                    url: "{{ url('mvadmin/movie') }}" + "/" + id,
                     type: "DELETE",
                     dataType: "JSON",
                     data: {"id":id, '_token':csrf_token},

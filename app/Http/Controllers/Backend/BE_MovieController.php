@@ -155,7 +155,7 @@ class BE_MovieController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return MovieList::destroy($id);
     }
 
     public function movie_table()
