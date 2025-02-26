@@ -1,0 +1,49 @@
+<style>
+    .dt-search {
+        float: right;
+       margin-bottom: 10px;
+    }
+    .dt-length{
+        display:none;
+    }
+
+    .btn-insoft {
+        width: 10px;
+        height: 10px;
+        padding: 16px;
+    }
+
+    .btn-warning {
+        background: orange
+    }
+
+    .btn-success {
+        background: green
+    }
+
+    .btn-danger {
+        background: red
+    }
+
+    .icon-insoft {
+        position: relative;
+        top: -8px;
+        right: 6px;
+        font-size: 12px;
+    }
+
+    .be-poster {
+        width: 100px !important;
+        height: 110px !important;
+        object-fit: cover !important;
+        border-radius: 5px;
+        border: 2px solid white;
+        cursor: pointer;
+    }
+
+    .table-list th,td{
+        min-width: 100px !important;
+        max-width: 300px !important;
+        
+    }
+</style>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\BE_HomeController;
+use App\Http\Controllers\Backend\BE_MovieController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MovieController;
 use App\Http\Controllers\ProfileController;
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
 Route::group(['prefix' => 'mvadmin'], function () {
     Route::get('/', [BE_HomeController::class, 'index']);
+    Route::resource('/movie', BE_MovieController::class);
+    Route::get('/movie_table', [BE_MovieController::class, 'movie_table'])->name('movie.table');
 });
 
 

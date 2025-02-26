@@ -204,7 +204,7 @@
                 <div class="row ipad-width2">
                         <div class="col-md-8 col-sm-12 col-xs-12">
                                 <div class="topbar-filter">
-                                        <p>Found <span>1,608 movies</span> in total</p>
+                                        {{-- <p>Found <span>1,608 movies</span> in total</p> --}}
                                         <label>Sort by:</label>
                                         <select>
                                                 <option value="popularity">Popularity Descending</option>
@@ -233,8 +233,11 @@
                                 <div class="topbar-filter">
                                         <label>Movies per page:</label>
                                         <select>
-                                                <option value="range">5 Movies</option>
-                                                <option value="saab">10 Movies</option>
+                                                <option value="5">5 Movies</option>
+                                                <option value="10">10 Movies</option>
+                                                <option value="15">15 Movies</option>
+                                                <option value="20">20 Movies</option>
+                                                <option value="25">25 Movies</option>
                                         </select>
                                         <div class="pagination2">
                                                 {{ $mlist->onEachSide(5)->links() }}
