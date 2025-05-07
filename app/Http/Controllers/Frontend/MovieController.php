@@ -35,10 +35,13 @@ class MovieController extends Controller
     {
         $view = 'sub-movie';
        
-            $movie = MovieList::where('category', $category)->where('sub_category', $sub)->get();
+            $movie = MovieList::where('category', $category)
+            
+            ->where('genre', 'LIKE', '%' . $sub . '%')
+            ->get();
+
             $ct = Category::where('slug', $category)->first();
-            $sb = SubCategory::where('slug', $sub)->first();
-            $judul = $ct->category_name.' - '.$sb->subcategory_name;
+            $judul = $ct->category_name.' - '.$sub;
        
         
         return view('frontend.movie', compact('view','movie','judul'));

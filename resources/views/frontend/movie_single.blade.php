@@ -17,9 +17,9 @@
                                         class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a>
                                 </div>
                             </div> --}}
-                            <div class="btn-transform transform-vertical">
-                                <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-download"></i> Download</a></div>
-                                <div><a href="#" class="item item-2 yellowbtn"><i class="ion-download"></i></a></div>
+                            <div onclick="download_()"  class="btn-transform transform-vertical">
+                                <div><a href="javascript:void(0);" class="item item-1 yellowbtn"> <i class="ion-download"></i> Download</a></div>
+                                <div><a  href="javascript:void(0);" class="item item-2 yellowbtn"><i class="ion-download"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -62,8 +62,8 @@
                         <div class="movie-tabs">
                             <div class="tabs">
                                 <ul class="tab-links tabs-mv">
-                                    <li class="active"><a href="#overview">Overview</a></li>
-                                    <li><a href="#reviews"> Downloads</a></li>
+                                    <li class="active ov"><a href="#overview">Overview</a></li>
+                                    <li class="dw"><a href="#reviews"> Downloads</a></li>
                                     
                                 </ul>
                                 <div class="tab-content">

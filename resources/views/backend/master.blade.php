@@ -21,10 +21,14 @@
 
     <!-- ======= BEGIN GLOBAL MANDATORY STYLES ======= -->
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/bootstrap/css/bootstrap.min.css">
-    <link href="https://cdn.datatables.net/v/bs4/dt-2.2.2/b-3.2.2/b-html5-3.2.2/r-3.0.4/datatables.min.css" rel="stylesheet" integrity="sha384-AjhUECQ2dPlgimnJrvrWabv2nXMqRXvZ+aC705N/dTbjsgwyni+Sh71GqXpthwn0" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/v/bs4/dt-2.2.2/b-3.2.2/b-html5-3.2.2/r-3.0.4/datatables.min.css"
+        rel="stylesheet" integrity="sha384-AjhUECQ2dPlgimnJrvrWabv2nXMqRXvZ+aC705N/dTbjsgwyni+Sh71GqXpthwn0"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('template/backend') }}/assets/fonts/icofont/icofont.min.css">
     <link rel="stylesheet"
         href="{{ asset('template/backend') }}/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.css">
+
+
     <!-- ======= END BEGIN GLOBAL MANDATORY STYLES ======= -->
 
     <!-- ======= BEGIN PAGE LEVEL PLUGINS STYLES ======= -->
@@ -434,13 +438,14 @@
     <!-- ======= BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS ======= -->
     <script src="{{ asset('template/backend') }}/assets/plugins/apex/apexcharts.min.js"></script>
     <script src="{{ asset('template/backend') }}/assets/plugins/apex/custom-apexcharts.js"></script>
-    
+
     <script src="{{ asset('template/backend') }}/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    
 
     <!-- ======= End BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS ======= -->
 
-    
+
     @include('backend.js')
 
 </body>

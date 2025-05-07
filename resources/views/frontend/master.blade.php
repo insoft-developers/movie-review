@@ -42,6 +42,30 @@
             <span></span>
         </div>
     </div>
+    @php
+        $subs = [];
+        $lists = \App\Models\MovieList::where('category', 'movie')->get();
+        foreach ($lists as $list) {
+            $gen = explode(', ', $list->genre);
+            array_push($subs, $gen);
+        }
+
+        $merged = array_merge(...$subs);
+
+        $subcat = array_unique($merged);
+
+        $subs2 = [];
+        $lists2 = \App\Models\MovieList::where('category', 'tv-show')->get();
+        foreach ($lists2 as $list2) {
+            $gen2 = explode(', ', $list2->genre);
+            array_push($subs2, $gen2);
+        }
+
+        $merged2 = array_merge(...$subs2);
+
+        $subcat2 = array_unique($merged2);
+
+    @endphp
     <!--end of preloading-->
     <!--login form popup-->
     <div class="login-wrapper" id="login-content">
@@ -167,11 +191,22 @@
                                 Anime
                             </a>
                         </li>
-                        
+
                         <li class="dropdown first">
-                            <a href="{{ url('/movie/all') }}" class="btn btn-default">
-                                Movies
+                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                data-hover="dropdown">
+                                Movies <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
+                            <ul class="dropdown-menu level1">
+                                <li class="list-menu"><a href="{{ url('/movie/all') }}">All Movie</a></li>
+                                @foreach ($subcat as $s)
+                                    <li class="list-menu"><a
+                                            href="{{ url('/moviesub/movie/' . $s) }}">{{ $s }}</a></li>
+                                @endforeach
+
+
+
+                            </ul>
                         </li>
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
@@ -179,15 +214,14 @@
                                 TV Show <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
-                                @php
-                                    $sub = \App\Models\SubCategory::where('category_slug', 'tv-show')->get();
-                                @endphp
-                                @foreach($sub as $s)
-                                <li class="list-menu"><a href="{{ url('/moviesub/'.$s->category_slug.'/'.$s->slug) }}">{{ $s->subcategory_name }}</a></li>
-                                @endforeach
                                 <li class="list-menu"><a href="{{ url('/movie/tv-show') }}">All TV Show</a></li>
-                               
-                                
+                                @foreach ($subcat2 as $s)
+                                    <li class="list-menu"><a
+                                            href="{{ url('/moviesub/tv-show/' . $s) }}">{{ $s }}</a></li>
+                                @endforeach
+
+
+
                             </ul>
                         </li>
                         <li class="dropdown first">
@@ -210,9 +244,9 @@
                                 Advance Search
                             </a>
                         </li>
-                       
+
                     </ul>
-                    
+
                 </div>
                 <!-- /.navbar-collapse -->
             </nav>
@@ -289,6 +323,16 @@
     <script src="{{ asset('template/frontend') }}/js/plugins.js"></script>
     <script src="{{ asset('template/frontend') }}/js/plugins2.js"></script>
     <script src="{{ asset('template/frontend') }}/js/custom.js"></script>
+    @if ($view == 'single')
+        <script>
+           function download_() {
+                $(".dw").addClass('active');
+                $(".ov").removeClass('active');
+                $("#overview").hide();
+                $("#reviews").show();
+           }
+        </script>
+    @endif
 </body>
 
 </html>

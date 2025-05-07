@@ -11,8 +11,8 @@ class HomeController extends Controller
     public function index()
     {
         $view = 'home';
-        $popular = MovieList::where('is_popular', 1)->get();
-        $banners = MovieList::where('is_banner', 1)->orderBy('id','desc')->get();
+        $popular = MovieList::where('is_popular', 1)->orderBy('id','asc')->get();
+        $banners = MovieList::where('is_popular', 1)->orderBy('id','desc')->get();
         $new = MovieList::where('is_popular', 1)->orderBy('id','desc')->get();
         $movie = MovieList::all();
         $mlist = MovieList::paginate(25);
@@ -72,7 +72,11 @@ class HomeController extends Controller
                 'box_Office' => $data['BoxOffice'],
                 'production' => $data['Production'],
                 'website' => $data['Website'],
-                'slug' => strtolower($slug)
+                'slug' => strtolower($slug),
+                'is_new' => 1,
+                'is_anime' => 0,
+                'is_popular' => 0,
+                
                 
             ];
 

@@ -28,6 +28,7 @@
                                                 <th>Poster</th>
                                                 <th>Title</th>
                                                 <th>Category</th>
+                                                <th>SubCategory</th>
                                                 <th>Year</th>
                                                 <th>Rated</th>
                                                 <th>Released</th>
@@ -36,8 +37,8 @@
                                                 <th>Director</th>
                                                 <th>Actors</th>
                                                 <th>Plot</th>
-                                                <th>Banner</th>
-                                                <th>Popular</th>
+                                                <th>Banner/Popular</th>
+                                                
                                                 <th>New</th>
                                                 <th>Anime</th>
                                                 <th>Language</th>
@@ -106,20 +107,19 @@
                                 <div class="custom-select style--two">
                                     <select class="theme-input-style" id="category" name="category">
                                         <option value="">Pilih</option>
-                                        @foreach($category as $c)
+                                        <option value="movie">Movie</option>
+                                        <option value="tv-show">TV Show</option>
+                                        {{-- @foreach($category as $c)
                                         <option value="{{ $c->slug }}">{{ $c->category_name }}</option>
-                                        @endforeach
+                                        @endforeach --}}
 
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group mb-4">
-                                <label for="sub_category" class="mb-2 bold d-block">Sub Category</label>
-                                <div class="custom-select style--two">
-                                    <select class="theme-input-style" id="sub_category" name="sub_category">
-                                        <option value="">Pilih</option>
-
-                                    </select>
+                                <div class="form-group mb-4">
+                                    <label for="sub_category" class="mb-2 bold">Sub Category</label>
+                                    <input readonly type="text" class="theme-input-style" id="sub_category" name="sub_category">
                                 </div>
                             </div>
                             <div class="form-group mb-4">
@@ -170,7 +170,7 @@
                                 <label for="download" class="mb-2 bold d-block">Download Text</label>
                                 <textarea id="download" name="download"  placeholder="Enter Download Text"></textarea>
                             </div>
-                            <div class="form-group mb-4">
+                            {{-- <div class="form-group mb-4">
                                 <label for="is_banner" class="mb-2 bold d-block">Use In Banner</label>
                                 <div class="custom-select style--two">
                                     <select class="theme-input-style" id="is_banner" name="is_banner">
@@ -180,9 +180,9 @@
 
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group mb-4">
-                                <label for="is_popular" class="mb-2 bold d-block">Use In Popular</label>
+                                <label for="is_popular" class="mb-2 bold d-block">Use In Banner & Popular</label>
                                 <div class="custom-select style--two">
                                     <select class="theme-input-style" id="is_popular" name="is_popular">
                                         <option value="">Pilih</option>

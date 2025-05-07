@@ -1,14 +1,22 @@
 <style>
+    .select2-container--default .select2-results__option {
+        color: black;
+        /* or any visible color */
+        background-color: white;
+        /* optional, to ensure contrast */
+    }
+
     .cke_notifications_area {
         display: none !important;
     }
 
     .dt-search {
         float: right;
-       margin-bottom: 10px;
+        margin-bottom: 10px;
     }
-    .dt-length{
-        display:none;
+
+    .dt-length {
+        display: none;
     }
 
     .btn-insoft {
@@ -45,9 +53,10 @@
         cursor: pointer;
     }
 
-    .table-list th,td{
+    .table-list th,
+    td {
         min-width: 100px !important;
         max-width: 300px !important;
-        
+
     }
 </style>

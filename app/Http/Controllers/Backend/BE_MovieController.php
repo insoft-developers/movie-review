@@ -109,6 +109,9 @@ class BE_MovieController extends Controller
                     'production' => $request->Production == null ? null : $data['Production'],
                     'website' => $request->Website == null ? null : $data['Website'],
                     'slug' => strtolower($slug),
+                    'is_popular' => 0,
+                    'is_new' => 1,
+                    'is_anime' => 0
                 ];
 
                 MovieList::create($insert);
@@ -167,7 +170,7 @@ class BE_MovieController extends Controller
             'actors' => 'required',
             'plot' => 'required',
             'download' => 'required',
-            'is_banner' => 'required',
+           
             'is_popular' => 'required',
             'is_new' => 'required',
             'is_anime' => 'required',

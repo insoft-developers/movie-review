@@ -3,6 +3,7 @@
        
             CKEDITOR.replace('download');
         
+      
         
 
         function tambah() {
@@ -68,6 +69,10 @@
                     name: 'category',
                 },
                 {
+                    data: 'genre',
+                    name: 'genre',
+                },
+                {
                     data: 'year',
                     name: 'year',
                 },{
@@ -91,9 +96,6 @@
                 },{
                     data: 'plot',
                     name: 'plot',
-                },{
-                    data: 'is_banner',
-                    name: 'is_banner',
                 },{
                     data: 'is_popular',
                     name: 'is_popular',
@@ -200,10 +202,10 @@
                     $("#actors").val(data.actors);
                     $("#plot").val(data.plot);
                     $("#category").val(data.category);
-                    change_category(data.category, data.sub_category);
+                    $("#sub_category").val(data.genre);
                     
                     CKEDITOR.instances.download.setData(data.download);
-                    $("#is_banner").val(data.is_banner);
+                    // $("#is_banner").val(data.is_banner);
                     $("#is_popular").val(data.is_popular);
                     $("#is_new").val(data.is_new);
                     $("#is_anime").val(data.is_anime);

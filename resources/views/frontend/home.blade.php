@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="slider sliderv2">
+    {{-- <div class="slider sliderv2">
         <div class="container">
             <div class="row">
                 <div class="slider-single-item">
@@ -49,12 +49,15 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+    <div class="hero">
+
     </div>
     <div class="movie-items  full-width">
         <div class="row" style="margin-top:-50px; margin-bottom:-60px;">
             <div class="col-md-12">
                 <div class="title-hd">
-                    <h2>Popular</h2>
+                    <h2>Home</h2>
                     <a href="{{ url('movie/popular') }}" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
                 </div>
                 <div class="tabs">
