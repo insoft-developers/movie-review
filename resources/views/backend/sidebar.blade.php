@@ -42,6 +42,18 @@
                     <span class="link-title">Sub Category List</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ url('mvadmin/how_to_download') }}">
+                    <i class="icofont-dice-multiple"></i>
+                    <span class="link-title">How To Download</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('mvadmin/subcategory') }}">
+                    <i class="icofont-dice-multiple"></i>
+                    <span class="link-title">Report Dead Links</span>
+                </a>
+            </li>
 
             <li class="nav-category">settings</li>
 

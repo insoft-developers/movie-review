@@ -14,3 +14,4 @@
 @include('backend.custom_js.movie_js')
 @include('backend.custom_js.category_js')
 @include('backend.custom_js.subcategory_js')
+@include('backend.custom_js.how_to_js')

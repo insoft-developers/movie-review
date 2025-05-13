@@ -85,9 +85,6 @@
                     data: 'run_time',
                     name: 'run_time',
                 },{
-                    data: 'genre',
-                    name: 'genre',
-                },{
                     data: 'director',
                     name: 'director',
                 },{

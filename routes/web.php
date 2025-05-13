@@ -29,6 +29,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/movie/{category}', [MovieController::class, 'index']);
 Route::get('/moviesub/{category}/{sub}', [MovieController::class, 'sub']);
 Route::get('/movie/single/{title}', [MovieController::class, 'single']);
+Route::get('/how-to-download', [HomeController::class, 'how_to']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -55,6 +56,10 @@ Route::group(['prefix' => 'mvadmin'], function () {
 
     Route::resource('/subcategory', SubCategoryController::class);
     Route::get('/subcategory_table', [SubCategoryController::class, 'subcategory_table'])->name('subcategory.table');
+
+    Route::get('/how_to_download', [BE_HomeController::class, 'how_to_download']);
+
+    Route::post('/update_how', [BE_HomeController::class, 'update_how'])->name('update.how');
 });
 
 

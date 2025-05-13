@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\HowToDownload;
 use App\Models\MovieList;
 use Illuminate\Http\Request;
 
@@ -87,5 +88,11 @@ class HomeController extends Controller
                 "message" => 'success'
             ]);
         }
+    }
+
+    public function how_to() {
+        $view = 'how-to-front';
+        $data = HowToDownload::find(1);
+        return view('frontend.how', compact('view','data'));
     }
 }

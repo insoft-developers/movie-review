@@ -33,7 +33,7 @@
                                                 <th>Rated</th>
                                                 <th>Released</th>
                                                 <th>Run Time</th>
-                                                <th>Genre</th>
+                                               
                                                 <th>Director</th>
                                                 <th>Actors</th>
                                                 <th>Plot</th>

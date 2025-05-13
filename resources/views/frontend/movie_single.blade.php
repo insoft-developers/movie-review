@@ -1,9 +1,11 @@
 @extends('frontend.master')
 @section('content')
-    <div class="hero2">
-
-    </div>
-    <div class="page-single movie-single movie_single" style="">
+    
+        <div class="slider sliderv2">
+            <div class="hero2"></div>
+        </div>
+    
+    <div class="page-single movie-single movie_single" style="margin-top:-600px;">
         <div class="container">
             <div class="row ipad-width2">
                 <div class="col-md-4 col-sm-12 col-xs-12">

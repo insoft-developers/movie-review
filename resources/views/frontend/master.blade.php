@@ -225,7 +225,7 @@
                             </ul>
                         </li>
                         <li class="dropdown first">
-                            <a href="{{ url('/') }}" class="btn btn-default">
+                            <a href="{{ url('/how-to-download') }}" class="btn btn-default">
                                 How To Download
                             </a>
                         </li>
