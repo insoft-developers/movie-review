@@ -1,11 +1,35 @@
 <style>
-    header .navbar-default .navbar-nav .dropdown .dropdown-menu.level1 li a:hover{
+    @if ($view == 'report-link')
+      
+        nav[role="navigation"] 
+        {
+            display: block;
+            float: right;
+            margin-top: -11px;
+            position: relative;
+            color: white !important;
+            /* margin-left: 10px; */
+        }
+    @endif
+    .cancel-reply-btn {
+        right: 16px;
+        position: absolute;
+        bottom: 420px;
+        font-size: small;
+        color: red;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    header .navbar-default .navbar-nav .dropdown .dropdown-menu.level1 li a:hover {
         color: #dd003f !important;
     }
-    .tab-bawah{
+
+    .tab-bawah {
         margin-top: -26px;
         margin-bottom: -26px;
     }
+
     .little-movie {
         width: 107px !important;
         height: 130px;
@@ -49,7 +73,8 @@
     .sliderv2 .movie-item .title-in .redbtn {
         font-size: 11px !important;
     }
-    .movie-items .movie-item .hvr-inner a{
+
+    .movie-items .movie-item .hvr-inner a {
         font-size: 11px !important;
     }
 </style>

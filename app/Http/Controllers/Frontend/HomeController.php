@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\HowToDownload;
 use App\Models\MovieList;
+use App\Models\ReportLink;
+use App\Models\ReportMessage;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,12 +14,12 @@ class HomeController extends Controller
     public function index()
     {
         $view = 'home';
-        $popular = MovieList::where('is_popular', 1)->orderBy('id','asc')->get();
-        $banners = MovieList::where('is_popular', 1)->orderBy('id','desc')->get();
-        $new = MovieList::where('is_popular', 1)->orderBy('id','desc')->get();
+        $popular = MovieList::where('is_popular', 1)->orderBy('id', 'asc')->get();
+        $banners = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
+        $new = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
         $movie = MovieList::all();
         $mlist = MovieList::paginate(25);
-        return view('frontend.home', compact('view','popular','banners','new','movie','mlist'));
+        return view('frontend.home', compact('view', 'popular', 'banners', 'new', 'movie', 'mlist'));
     }
 
     public function get_movie($id)
@@ -40,12 +42,12 @@ class HomeController extends Controller
 
         curl_close($curl);
 
-        if ($err) { 
+        if ($err) {
             return 'cURL Error #:' . $err;
         } else {
             $data = json_decode($response, true);
 
-            $slug = str_replace(" ", "-", $data['Title']);
+            $slug = str_replace(' ', '-', $data['Title']);
 
             $insert = [
                 'title' => $data['Title'],
@@ -77,22 +79,44 @@ class HomeController extends Controller
                 'is_new' => 1,
                 'is_anime' => 0,
                 'is_popular' => 0,
-                
-                
             ];
 
             MovieList::create($insert);
 
             return response()->json([
-                "success" => true,
-                "message" => 'success'
+                'success' => true,
+                'message' => 'success',
             ]);
         }
     }
 
-    public function how_to() {
+    public function how_to()
+    {
         $view = 'how-to-front';
         $data = HowToDownload::find(1);
-        return view('frontend.how', compact('view','data'));
+        return view('frontend.how', compact('view', 'data'));
+    }
+
+    public function report_link()
+    {
+        $view = 'report-link';
+        $data = ReportLink::find(1);
+
+        $comments = ReportMessage::where('level', 1)->orderBy('id', 'desc')->paginate(10);
+        $totalComments = $comments->total();
+        
+        return view('frontend.report_link', compact('view', 'data','comments','totalComments'));
+    }
+
+    public function comment(Request $request)
+    {
+        $input = $request->all();
+
+        ReportMessage::create($input);
+        // Menyimpan pesan untuk ditampilkan setelah refresh halaman
+        session()->flash('message', 'Comment berhasil disimpan!');
+
+        // Mengalihkan kembali ke halaman yang sama
+        return redirect()->back();
     }
 }

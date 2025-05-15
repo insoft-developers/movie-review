@@ -30,6 +30,8 @@ Route::get('/movie/{category}', [MovieController::class, 'index']);
 Route::get('/moviesub/{category}/{sub}', [MovieController::class, 'sub']);
 Route::get('/movie/single/{title}', [MovieController::class, 'single']);
 Route::get('/how-to-download', [HomeController::class, 'how_to']);
+Route::get('/report-link', [HomeController::class, 'report_link']);
+Route::post('/comment', [HomeController::class,'comment'])->name('comment');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

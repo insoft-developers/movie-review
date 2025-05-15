@@ -230,7 +230,7 @@
                             </a>
                         </li>
                         <li class="dropdown first">
-                            <a href="{{ url('/') }}" class="btn btn-default">
+                            <a href="{{ url('/report-link') }}" class="btn btn-default">
                                 Report Dead Links
                             </a>
                         </li>
@@ -325,12 +325,34 @@
     <script src="{{ asset('template/frontend') }}/js/custom.js"></script>
     @if ($view == 'single')
         <script>
-           function download_() {
+            function download_() {
                 $(".dw").addClass('active');
                 $(".ov").removeClass('active');
                 $("#overview").hide();
                 $("#reviews").show();
-           }
+            }
+        </script>
+    @endif
+    @if ($view == 'report-link')
+        <script>
+            function reply(id) {
+                var name = $("#name_"+id).val();
+                $("#level").val(2);
+                $("#sub_level").val(id);
+                $("#message_title").text("Reply To "+name);
+                $('html, body').animate({
+                    scrollTop: $('#target-div').offset().top
+                }, 800); // 800ms = durasi scroll
+
+                $("#cancel_reply_btn").show();
+            }
+
+            function cancel_reply() {
+                $("#level").val(1);
+                $("#sub_level").val(1);
+                $("#message_title").text("Leave a comment");
+                $("#cancel_reply_btn").hide();
+            }
         </script>
     @endif
 </body>
