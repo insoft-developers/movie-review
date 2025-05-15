@@ -83,7 +83,7 @@
                         <div class="comment-form" id="target-div">
                             <h4 id="message_title">Leave a comment</h4>
                             <p style="display: none;" id="cancel_reply_btn" onclick="cancel_reply()"
-                                class="cancel-reply-btn">X Cancel Repy</p>
+                                class="cancel-reply-btn">X Cancel Reply</p>
                             
                             <form method="POST" action="{{ route('comment') }}">
                                 @csrf
