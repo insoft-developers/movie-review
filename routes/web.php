@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MovieController;
+use App\Http\Controllers\Frontend\SeederController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/run-seeder/{seeder}', [SeederController::class, 'runSeeder']);
 
-Route::get('get_movie/{id}', [HomeController::class, 'get_movie']);
+Route::get('/get_movie/{id}', [HomeController::class, 'get_movie']);
 
 
 
