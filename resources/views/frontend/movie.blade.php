@@ -12,49 +12,68 @@
 
                     </div>
                     <div class="topbar-filter fw">
-                        <p>Found <span>1,608 movies</span> in total</p>
+                        <p>Found <span>{{ $movie_count }} movies</span> in total</p>
                         <label>Sort by:</label>
-                        <select>
-                            <option value="popularity">Popularity Descending</option>
-                            <option value="popularity">Popularity Ascending</option>
-                            <option value="rating">Rating Descending</option>
-                            <option value="rating">Rating Ascending</option>
-                            <option value="date">Release date Descending</option>
-                            <option value="date">Release date Ascending</option>
+                        <select id="order_movie_select">
+                            <option <?php if ($movie_order == 'pop_desc') {
+                                echo 'selected';
+                            } ?> value="pop_desc">Popularity Descending</option>
+                            <option <?php if ($movie_order == 'pop_asc') {
+                                echo 'selected';
+                            } ?> value="pop_asc">Popularity Ascending</option>
+                            <option <?php if ($movie_order == 'rating_desc') {
+                                echo 'selected';
+                            } ?> value="rating_desc">Rating Descending</option>
+                            <option <?php if ($movie_order == 'rating_asc') {
+                                echo 'selected';
+                            } ?> value="rating_asc">Rating Ascending</option>
+                            <option <?php if ($movie_order == 'release_desc') {
+                                echo 'selected';
+                            } ?> value="release_desc">Release date Descending</option>
+                            <option <?php if ($movie_order == 'release_asc') {
+                                echo 'selected';
+                            } ?> value="release_asc">Release date Ascending</option>
                         </select>
-                        <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
-                        <a href="moviegridfw.html" class="grid"><i class="ion-grid active"></i></a>
+
                     </div>
                     <div class="flex-wrap-movielist mv-grid-fw">
                         @foreach ($movie as $m)
                             <div class="movie-item-style-2 movie-item-style-1">
                                 <img class="movie-poster" src="{{ $m->poster }}" alt="">
                                 <div class="hvr-inner">
-                                    <a href="{{ url('/movie/single/'.$m->slug) }}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                    <a href="{{ url('/movie/single/' . $m->slug) }}"> Read more <i
+                                            class="ion-android-arrow-dropright"></i> </a>
                                 </div>
                                 <div class="mv-item-infor">
                                     <h6><a href="#">{{ $m->title }}</a></h6>
-                                    <p class="rate"><i class="ion-android-star"></i><span>{{ $m->imdb_rating }}</span> /10</p>
+                                    <p class="rate"><i class="ion-android-star"></i><span>{{ $m->imdb_rating }}</span> /10
+                                    </p>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                     <div class="topbar-filter">
                         <label>Movies per page:</label>
-                        <select>
-                            <option value="range">20 Movies</option>
-                            <option value="saab">10 Movies</option>
+                        <select id="movie_per_page_select">
+                            <option <?php if ($movie_per_page_sub == '6') {
+                                echo 'selected';
+                            } ?> value="6">6 Movies</option>
+                            <option <?php if ($movie_per_page_sub == '12') {
+                                echo 'selected';
+                            } ?> value="12">12 Movies</option>
+                            <option <?php if ($movie_per_page_sub == '18') {
+                                echo 'selected';
+                            } ?> value="18">18 Movies</option>
+                            <option <?php if ($movie_per_page_sub == '24') {
+                                echo 'selected';
+                            } ?> value="24">24 Movies</option>
+                            <option <?php if ($movie_per_page_sub == '30') {
+                                echo 'selected';
+                            } ?> value="30">30 Movies</option>
                         </select>
 
                         <div class="pagination2">
-                            <span>Page 1 of 2:</span>
-                            <a class="active" href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">...</a>
-                            <a href="#">78</a>
-                            <a href="#">79</a>
-                            <a href="#"><i class="ion-arrow-right-b"></i></a>
+                            {{ $movie->onEachSide(6)->links() }}
                         </div>
                     </div>
                 </div>

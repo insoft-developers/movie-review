@@ -18,8 +18,35 @@ class HomeController extends Controller
         $banners = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
         $new = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
         $movie = MovieList::all();
-        $mlist = MovieList::paginate(25);
-        return view('frontend.home', compact('view', 'popular', 'banners', 'new', 'movie', 'mlist'));
+        $movie_per_page = session('movie_per_page') ?? 10;
+        
+        $movie_order = session('order_movie') ?? 'pop_desc';
+
+        $query = MovieList::query();
+
+        if($movie_order == 'pop_desc') {
+            $query->orderBy('imdb_votes', 'desc');
+        }
+        else if($movie_order == 'pop_asc') {
+            $query->orderBy('imdb_votes', 'asc');
+        } 
+        else if($movie_order == 'rating_desc') {
+            $query->orderBy('ratings', 'desc');
+        }
+        else if($movie_order == 'rating_asc') {
+            $query->orderBy('ratings', 'asc');
+        }
+        else if($movie_order == 'release_desc') {
+            $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') DESC");
+        }
+        else if($movie_order == 'release_asc') {
+            $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') ASC");
+        }
+
+
+        $mlist = $query->paginate($movie_per_page);
+
+        return view('frontend.home', compact('view', 'popular', 'banners', 'new', 'movie', 'mlist','movie_per_page','movie_order'));
     }
 
     public function get_movie($id)
@@ -118,5 +145,18 @@ class HomeController extends Controller
 
         // Mengalihkan kembali ke halaman yang sama
         return redirect()->back();
+    }
+
+    public function movie_per_page(Request $request) {
+        $input = $request->all();
+        session(['movie_per_page' => $input['nilai']]);
+        return response()->json(true);
+    }
+
+
+    public function order_movie(Request $request) {
+        $input = $request->all();
+        session(['order_movie' => $input['nilai']]);
+        return response()->json(true);
     }
 }

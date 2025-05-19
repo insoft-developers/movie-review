@@ -21,6 +21,8 @@
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
     <!-- Mobile specific meta -->
     <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="format-detection" content="telephone-no">
 
     <!-- CSS files -->
@@ -323,6 +325,124 @@
     <script src="{{ asset('template/frontend') }}/js/plugins.js"></script>
     <script src="{{ asset('template/frontend') }}/js/plugins2.js"></script>
     <script src="{{ asset('template/frontend') }}/js/custom.js"></script>
+    @if ($view == 'movie' || 'sub-movie')
+        <script>
+            $("#movie_per_page_select").change(function() {
+                var nilai = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                let segment1 = window.location.pathname.split('/')[1];
+                let segment2 = window.location.pathname.split('/')[2];
+
+                $.ajax({
+                    url: "{{ route('movie.per.page.sub') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "nilai": nilai,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        console.log(segment1);
+                        console.log(segment2);
+                        if (segment1 == 'movie' && segment2 == 'all') {
+                            window.location = "{{ url('/movie/all') }}";
+                        } else if (segment1 == 'movie' && segment2 == 'anime') {
+                            window.location = "{{ url('/movie/anime') }}";
+                        } else if (segment1 == 'movie' && segment2 == 'tv-show') {
+                            window.location = "{{ url('/movie/tv-show') }}";
+                        } else if (segment1 == 'movie' && segment2 == 'popular') {
+                            window.location = "{{ url('/movie/popular') }}";
+                        } else if (segment1 == 'moviesub' && segment2 == 'movie') {
+                            let segment3 = window.location.pathname.split('/')[3];
+                            window.location = "{{ url('/moviesub/movie') }}" + '/' + segment3;
+
+                        } else if (segment1 == 'moviesub' && segment2 == 'tv-show') {
+                            let segment3 = window.location.pathname.split('/')[3];
+                            window.location = "{{ url('/moviesub/tv-show') }}" + '/' + segment3;
+
+                        }
+
+                    }
+                })
+            })
+
+
+            $("#order_movie_select").change(function() {
+                var nilai = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                let segment1 = window.location.pathname.split('/')[1];
+                let segment2 = window.location.pathname.split('/')[2];
+                $.ajax({
+                    url: "{{ route('order.movie.sub') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "nilai": nilai,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        if (segment1 == 'movie' && segment2 == 'all') {
+                            window.location = "{{ url('/movie/all') }}";
+                        } else if (segment1 == 'movie' && segment2 == 'anime') {
+                            window.location = "{{ url('/movie/anime') }}";
+                        } else if (segment1 == 'movie' && segment2 == 'tv-show') {
+                            window.location = "{{ url('/movie/tv-show') }}";
+                        } else if (segment1 == 'movie' && segment2 == 'popular') {
+                            window.location = "{{ url('/movie/popular') }}";
+                        } else if (segment1 == 'moviesub' && segment2 == 'movie') {
+                            let segment3 = window.location.pathname.split('/')[3];
+                            window.location = "{{ url('/moviesub/movie') }}" + '/' + segment3;
+
+                        } else if (segment1 == 'moviesub' && segment2 == 'tv-show') {
+                            let segment3 = window.location.pathname.split('/')[3];
+                            window.location = "{{ url('/moviesub/tv-show') }}" + '/' + segment3;
+
+                        }
+                    }
+                })
+            })
+        </script>
+    @endif
+
+
+    @if ($view == 'home')
+        <script>
+            $("#movie_per_page_select").change(function() {
+                var nilai = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('movie.per.page') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "nilai": nilai,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        window.location = "{{ url('/') }}";
+                    }
+                })
+            })
+
+
+            $("#order_movie_select").change(function() {
+                var nilai = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('order.movie') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "nilai": nilai,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        window.location = "{{ url('/') }}";
+                    }
+                })
+            })
+        </script>
+    @endif
     @if ($view == 'single')
         <script>
             function download_() {
@@ -336,10 +456,10 @@
     @if ($view == 'report-link')
         <script>
             function reply(id) {
-                var name = $("#name_"+id).val();
+                var name = $("#name_" + id).val();
                 $("#level").val(2);
                 $("#sub_level").val(id);
-                $("#message_title").text("Reply To "+name);
+                $("#message_title").text("Reply To " + name);
                 $('html, body').animate({
                     scrollTop: $('#target-div').offset().top
                 }, 800); // 800ms = durasi scroll

@@ -34,6 +34,11 @@ Route::get('/movie/single/{title}', [MovieController::class, 'single']);
 Route::get('/how-to-download', [HomeController::class, 'how_to']);
 Route::get('/report-link', [HomeController::class, 'report_link']);
 Route::post('/comment', [HomeController::class,'comment'])->name('comment');
+Route::post('/movie_per_page', [HomeController::class, 'movie_per_page'])->name('movie.per.page');
+Route::post('/order_movie', [HomeController::class, 'order_movie'])->name('order.movie');
+
+Route::post('/movie_per_page_sub', [MovieController::class, 'movie_per_page_sub'])->name('movie.per.page.sub');
+Route::post('/order_movie_sub', [MovieController::class, 'order_movie_sub'])->name('order.movie.sub');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
