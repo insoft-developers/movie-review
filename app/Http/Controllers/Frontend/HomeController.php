@@ -19,34 +19,36 @@ class HomeController extends Controller
         $new = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
         $movie = MovieList::all();
         $movie_per_page = session('movie_per_page') ?? 10;
-        
+
         $movie_order = session('order_movie') ?? 'pop_desc';
 
         $query = MovieList::query();
 
-        if($movie_order == 'pop_desc') {
+        if ($movie_order == 'pop_desc') {
             $query->orderBy('imdb_votes', 'desc');
-        }
-        else if($movie_order == 'pop_asc') {
+        } elseif ($movie_order == 'pop_asc') {
             $query->orderBy('imdb_votes', 'asc');
-        } 
-        else if($movie_order == 'rating_desc') {
+        } elseif ($movie_order == 'rating_desc') {
             $query->orderBy('ratings', 'desc');
-        }
-        else if($movie_order == 'rating_asc') {
+        } elseif ($movie_order == 'rating_asc') {
             $query->orderBy('ratings', 'asc');
-        }
-        else if($movie_order == 'release_desc') {
+        } elseif ($movie_order == 'release_desc') {
             $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') DESC");
-        }
-        else if($movie_order == 'release_asc') {
+        } elseif ($movie_order == 'release_asc') {
             $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') ASC");
         }
 
+        $tahun_release = [];
+        foreach ($movie as $mvi) {
+            $tahun = explode('–', $mvi->year);
+            array_push($tahun_release, $tahun[0]);
+        }
 
         $mlist = $query->paginate($movie_per_page);
 
-        return view('frontend.home', compact('view', 'popular', 'banners', 'new', 'movie', 'mlist','movie_per_page','movie_order'));
+        sort($tahun_release);
+
+        return view('frontend.home', compact('view', 'popular', 'banners', 'new', 'movie', 'mlist', 'movie_per_page', 'movie_order', 'tahun_release'));
     }
 
     public function get_movie($id)
@@ -131,8 +133,8 @@ class HomeController extends Controller
 
         $comments = ReportMessage::where('level', 1)->orderBy('id', 'desc')->paginate(10);
         $totalComments = $comments->total();
-        
-        return view('frontend.report_link', compact('view', 'data','comments','totalComments'));
+
+        return view('frontend.report_link', compact('view', 'data', 'comments', 'totalComments'));
     }
 
     public function comment(Request $request)
@@ -147,16 +149,119 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function movie_per_page(Request $request) {
+    public function movie_per_page(Request $request)
+    {
         $input = $request->all();
         session(['movie_per_page' => $input['nilai']]);
         return response()->json(true);
     }
 
-
-    public function order_movie(Request $request) {
+    public function order_movie(Request $request)
+    {
         $input = $request->all();
         session(['order_movie' => $input['nilai']]);
         return response()->json(true);
+    }
+
+    public function movie_per_page_search(Request $request)
+    {
+        $input = $request->all();
+        session(['movie_per_page_search' => $input['nilai']]);
+        return response()->json(true);
+    }
+
+    public function order_movie_search(Request $request)
+    {
+        $input = $request->all();
+        session(['order_movie_search' => $input['nilai']]);
+        return response()->json(true);
+    }
+
+    public function movie_home_search(Request $request)
+    {
+        $input = $request->all();
+        session([
+            'search_movie_name' => $input['search_movie_name'],
+            'search_movie_rating' => $input['search_movie_rating'],
+            'search_movie_type' => $input['search_movie_type'],
+            'search_movie_year' => $input['search_movie_year'],
+        ]);
+
+        return response()->json(true);
+    }
+
+    public function movie_list_search()
+    {
+        $view = 'movie-search';
+        $judul = 'Search ';
+
+        $search_name = session('search_movie_name') ?? '';
+        $search_rating = session('search_movie_rating') ?? '';
+        $search_type = session('search_movie_type') ?? '';
+        $search_year = session('search_movie_year') ?? '';
+
+        $query = MovieList::query();
+
+        if (!empty($search_name)) {
+            $query->where('title', 'LIKE', '%' . $search_name . '%');
+            $judul .= ' Name : '.$search_name .' -';
+        }
+        if (!empty($search_type)) {
+            if ($search_type == 'movie') {
+                $query->where('category', 'movie');
+            } else {
+                $query->where(function ($q) {
+                    $q->where('category', 'tv-show');
+                    $q->orWhere('category', 'series');
+                });
+            }
+            $judul .= ' Type : '.$search_type.' -';
+        }
+
+        if (!empty($search_year)) {
+            $query->where('released', 'LIKE', '%' . $search_year . '%');
+            $judul .= ' Year : '.$search_year.' -';
+        }
+
+        if (!empty($search_rating)) {
+            $rati = (int) $search_rating;
+
+            if ($rati > 0) {
+                $query->where('ratings', '>=', $search_rating);
+            } else {
+                $query->where('ratings', '<=', abs($rati));
+            }
+
+            $judul .= ' Rating : '.$search_rating.'';
+        }
+
+        $movie_per_page_sub = session('movie_per_page_search') ?? 10;
+
+        $movie_order = session('order_movie_search') ?? 'pop_desc';
+
+
+        if ($movie_order == 'pop_desc') {
+            $query->orderBy('imdb_votes', 'desc');
+        } elseif ($movie_order == 'pop_asc') {
+            $query->orderBy('imdb_votes', 'asc');
+        } elseif ($movie_order == 'rating_desc') {
+            $query->orderBy('ratings', 'desc');
+        } elseif ($movie_order == 'rating_asc') {
+            $query->orderBy('ratings', 'asc');
+        } elseif ($movie_order == 'release_desc') {
+            $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') DESC");
+        } elseif ($movie_order == 'release_asc') {
+            $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') ASC");
+        }
+
+        // dd($rati);
+
+        
+
+        $movie = $query->paginate($movie_per_page_sub);
+        $movie_count = $query->count();
+    
+
+        return view('frontend.movie', compact('view', 'judul', 'movie', 'movie_count', 'movie_order', 'movie_per_page_sub'));
     }
 }

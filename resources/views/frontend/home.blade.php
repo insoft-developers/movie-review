@@ -231,28 +231,30 @@
                     <div class="sidebar">
                         <div class="searh-form">
                             <h4 class="sb-title">Search for movie/TV Show</h4>
-                            <form class="form-style-1" action="#">
+                            <form id="form-cari" class="form-style-1">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>Movie/Tv Show name</label>
-                                        <input type="text" placeholder="Enter keywords">
+                                        <input id="search_movie_name" name="search_movie_name" type="text" placeholder="Enter movie name">
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Type</label>
-                                        <div class="group-ip">
-                                            <select name="skills" multiple="" class="ui fluid dropdown">
-                                                <option value="">Enter to filter genres</option>
-                                                <option value="movie">Movie</option>
-                                                <option value="tv-show">TV Show</option>
-                                                
-                                            </select>
-                                        </div>
+
+                                        <select id="search_movie_type" name="search_movie_type">
+                                            <option value="">All Type</option>
+                                            <option value="movie">Movie</option>
+                                            <option value="tv-show">TV Show</option>
+
+                                        </select>
+
 
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Rating Range</label>
 
-                                        <select>
+                                        <select id="search_movie_rating" name="search_movie_rating">
+                                            <option value="">All Rating</option>
                                             <option value="4">4+</option>
                                             <option value="5">5+</option>
                                             <option value="6">6+</option>
@@ -273,14 +275,15 @@
                                         <label>Release Year</label>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <select>
-                                                    <option value="range"></option>
-                                                    <option value="number"></option>
-                                                    <option value="number"></option>
-                                                    <option value="number"></option>
+                                                <select id="search_movie_year" name="search_movie_year">
+
+                                                    <option value="">All Year</option>
+                                                    @foreach ($tahun_release as $th)
+                                                        <option value="{{ $th }}">{{ $th }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                     <div class="col-md-12 ">

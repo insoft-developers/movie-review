@@ -325,6 +325,45 @@
     <script src="{{ asset('template/frontend') }}/js/plugins.js"></script>
     <script src="{{ asset('template/frontend') }}/js/plugins2.js"></script>
     <script src="{{ asset('template/frontend') }}/js/custom.js"></script>
+
+    @if ($view == 'movie-search')
+        <script>
+            $("#movie_per_page_select").change(function() {
+                var nilai = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('movie.per.page.search') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "nilai": nilai,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        window.location = "{{ url('/movie-list-search') }}";
+                    }
+                })
+            })
+
+
+            $("#order_movie_select").change(function() {
+                var nilai = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('order.movie.search') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "nilai": nilai,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        window.location = "{{ url('/movie-list-search') }}";
+                    }
+                })
+            })
+        </script>
+    @endif
     @if ($view == 'movie' || 'sub-movie')
         <script>
             $("#movie_per_page_select").change(function() {
@@ -407,6 +446,21 @@
 
     @if ($view == 'home')
         <script>
+            $("#form-cari").submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('movie.home.search') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        console.log(data);
+                        window.location = "{{ url('movie-list-search') }}";
+                    }
+                })
+
+            });
+
             $("#movie_per_page_select").change(function() {
                 var nilai = $(this).val();
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');

@@ -37,6 +37,12 @@ Route::post('/comment', [HomeController::class,'comment'])->name('comment');
 Route::post('/movie_per_page', [HomeController::class, 'movie_per_page'])->name('movie.per.page');
 Route::post('/order_movie', [HomeController::class, 'order_movie'])->name('order.movie');
 
+
+Route::post('/movie_per_page_search', [HomeController::class, 'movie_per_page_search'])->name('movie.per.page.search');
+Route::post('/order_movie_search', [HomeController::class, 'order_movie_search'])->name('order.movie.search');
+
+Route::get('/movie-list-search', [HomeController::class, 'movie_list_search']);
+Route::post('/movie_home_search', [HomeController::class, 'movie_home_search'])->name('movie.home.search');
 Route::post('/movie_per_page_sub', [MovieController::class, 'movie_per_page_sub'])->name('movie.per.page.sub');
 Route::post('/order_movie_sub', [MovieController::class, 'order_movie_sub'])->name('order.movie.sub');
 
