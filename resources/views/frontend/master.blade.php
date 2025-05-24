@@ -28,6 +28,9 @@
     <!-- CSS files -->
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/css/plugins.css">
     <link rel="stylesheet" href="{{ asset('template/frontend') }}/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 
     @include('frontend.css')
 
@@ -237,12 +240,12 @@
                             </a>
                         </li>
                         <li class="dropdown first">
-                            <a href="{{ url('/') }}" class="btn btn-default">
+                            <a onclick="simple_search()" href="javasript:void(0);" class="btn btn-default">
                                 Simple Search
                             </a>
                         </li>
                         <li class="dropdown first">
-                            <a href="{{ url('/') }}" class="btn btn-default">
+                            <a onclick="advance_search()" href="javasript:void(0);" class="btn btn-default">
                                 Advance Search
                             </a>
                         </li>
@@ -262,56 +265,149 @@
 
     <!--end of latest new v2 section-->
     <!-- footer v2 section-->
-    <footer class="ht-footer full-width-ft">
-        <div class="row">
-            <div class="flex-parent-ft">
-                <div class="flex-child-ft item1">
-                    <a href="index.html"><img class="logo" src="{{ asset('template/frontend') }}/images/logo1.png"
-                            alt=""></a>
-                    <p>5th Avenue st, manhattan<br>
-                        New York, NY 10001</p>
-                    <p>Call us: <a href="#">(+01) 202 342 6789</a></p>
+
+    <!-- Modal -->
+    <div class="mdl" id="modal-search" style="display: none;">
+
+        <div class="col-md-12 form-it">
+
+            <div class="row">
+                <div class="col-md-12">
+                    @php
+                        $mvs = \App\Models\MovieList::all();
+                    @endphp
+                    <select id="simple_search_movie_title" style="width: 100%">
+                        <option value="">Search movie title</option>
+                        @foreach ($mvs as $m)
+                            <option value="{{ $m->slug }}">{{ $m->title }}</option>
+                        @endforeach
+                        </option>
+                    </select>
                 </div>
-                <div class="flex-child-ft item2">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blockbuster</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Forums</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
-                </div>
-                <div class="flex-child-ft item3">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Security</a></li>
-                    </ul>
-                </div>
-                <div class="flex-child-ft item4">
-                    <h4>Account</h4>
-                    <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Watchlist</a></li>
-                        <li><a href="#">Collections</a></li>
-                        <li><a href="#">User Guide</a></li>
-                    </ul>
-                </div>
-                <div class="flex-child-ft item5">
-                    <h4>Newsletter</h4>
-                    <p>Subscribe to our newsletter system now <br> to get latest news from us.</p>
-                    <form action="#">
-                        <input type="text" placeholder="Enter your email">
-                    </form>
-                    <a href="#" class="btn">Subscribe now <i class="ion-ios-arrow-forward"></i></a>
+                <div class="col-md-12">
+                    <a onclick="search_modal_close()" href="javascript:void(0);"
+                        class="simple-search-close">Cancel</a>
                 </div>
             </div>
-            <div class="ft-copyright">
+        </div>
+
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="mdl-advance" id="modal-advance" style="display: none;">
+        <form id="form-search-advance">
+            @csrf
+            <div class="col-md-12 form-it">
+
+                <div class="row">
+                    <div class="col-md-12 form-it" style="margin-bottom: 10px;">
+                        <input id="name_search_advance" name="name_search_advance" type="text"
+                            placeholder="Search Movie Title">
+                    </div>
+                    <div class="col-md-2 form-it">
+                        <select id="type_search_advance" name="type_search_advance">
+                            <option value="">All Type</option>
+                            <option value="movie">Movie</option>
+                            <option value="tv-show">TV Show</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 form-it">
+                        <select id="genre_search_advance" name="genre_search_advance">
+                            <option value="">All Genre</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 form-it">
+                        <select id="rating_search_advance" name="rating_search_advance">
+                            <option value="">All Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 form-it">
+                        @php
+                            $movies = \App\Models\MovieList::all();
+                            $tahun_release = [];
+                            foreach ($movies as $mvi) {
+                                $tahun = explode('–', $mvi->year);
+                                array_push($tahun_release, $tahun[0]);
+                            }
+
+                            $tahun_release = array_unique($tahun_release);
+                            sort($tahun_release);
+
+                        @endphp
+                        <select id="year_search_advance" name="year_search_advance">
+                            <option value="">All Year</option>
+                            @foreach ($tahun_release as $th)
+                                <option value="{{ $th }}">{{ $th }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 form-it">
+                        @php
+
+                            $list_langs = [];
+                            foreach ($movies as $m) {
+                                array_push($list_langs, $m->language);
+                            }
+
+                            $allLangs = [];
+
+                            foreach ($list_langs as $langs) {
+                                $langList = array_map('trim', explode(',', $langs));
+                                $allLangs = array_merge($allLangs, $langList);
+                            }
+
+                            $uniqueLang = array_unique($allLangs);
+                            sort($uniqueLang);
+
+                        @endphp
+                        <select id="lang_search_advance" name="lang_search_advance">
+                            <option value="">All Language</option>
+                            @foreach ($uniqueLang as $l)
+                                <option value="{{ $l }}">{{ $l }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 form-it">
+                        <select id="order_search_advance" name="order_search_advance">
+                            <option value="">Order By</option>
+                            <option value="latest">Latest</option>
+                            <option value="newest">Newest</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                        <button type="submit" class="btn btn-success btn-filter-advance">Filter</button>
+                        <a onclick="search_advance_close()" href="javascript:void(0);"
+                            class="advance-search-close">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+
+    <footer class="ht-footer full-width-ft">
+
+        <div class="row">
+           
+            <div class="ft-copyright" style="margin-left:20%;">
                 <div class="ft-left">
-                    <p>© 2017 Blockbuster. All Rights Reserved. Designed by leehari.</p>
+                    <p><a style="color:white;" href="{{ url('how-to-download') }}">How to Download</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('report-link') }}">Report Dead Links</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/request_us') }}">Request Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/dmca') }}">DMCA</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/contact_us') }}">Contact Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/about_us') }}">About Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/site_disclaimer') }}">Site Disclaimer</a></p>
                 </div>
                 <div class="backtotop">
                     <p><a href="#" id="back-to-top">Back to top <i class="ion-ios-arrow-thin-up"></i></a></p>
@@ -325,9 +421,97 @@
     <script src="{{ asset('template/frontend') }}/js/plugins.js"></script>
     <script src="{{ asset('template/frontend') }}/js/plugins2.js"></script>
     <script src="{{ asset('template/frontend') }}/js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        var cuty_token = 'b39fe1f40fb2094747ff30963';
+        var include_domains = ["filecrypt.cc"];
+    </script>
+    <script src="https://cdn.cuty.io/fps.js"></script>
+
+
+    <script>
+        $("#form-search-advance").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('search.advance') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: $(this).serialize(),
+                success: function(data) {
+                    console.log(data);
+                    window.location = "{{ url('/movie-advance-search') }}";
+                }
+            })
+
+        });
+
+
+        $("#type_search_advance").change(function() {
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            var nilai = $(this).val();
+            $.ajax({
+                url: "{{ route('movie.type.change') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "selected": nilai,
+                    "_token": csrf_token
+                },
+                success: function(data) {
+                    var html = '';
+                    html += '<option value="">Select Genre</option>';
+                    for (var i = 0; i < data.data.length; i++) {
+                        html += '<option value="' + data.data[i] + '">' + data.data[i] + '</option>';
+                    }
+
+                    if (nilai == '') {
+                        $("#genre_search_advance").html('<option value="">All Gebre</option>');
+                    } else {
+                        $("#genre_search_advance").html(html);
+                    }
+
+
+                }
+            })
+        });
+
+
+        $("#simple_search_movie_title").select2();
+
+        function simple_search() {
+            $("#modal-search").slideDown(500);
+        }
+
+
+        function advance_search() {
+            $("#modal-advance").slideDown(500);
+        }
+
+
+        $('#simple_search_movie_title').change(function() {
+            var slug = $(this).val();
+            console.log(slug);
+            window.location.href = "{{ url('movie/single') }}" + "/" + slug; // pindah ke link yang dipilih
+
+        });
+
+        function search_modal_close() {
+            $("#modal-search").slideUp(500);
+        }
+
+        function search_advance_close() {
+            $("#modal-advance").slideUp(500);
+        }
+        // $('#modal-search').mouseleave(function() {
+        //     $(this).slideUp(100);
+        // });
+    </script>
+
 
     @if ($view == 'movie-search')
         <script>
+            const is_search = "<?= $is_search ?>";
+
             $("#movie_per_page_select").change(function() {
                 var nilai = $(this).val();
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
@@ -340,7 +524,12 @@
                         "_token": csrf_token
                     },
                     success: function(data) {
-                        window.location = "{{ url('/movie-list-search') }}";
+                        if (is_search == 'advance') {
+                            window.location = "{{ url('/movie-advance-search') }}";
+                        } else {
+                            window.location = "{{ url('/movie-list-search') }}";
+                        }
+
                     }
                 })
             })
@@ -358,7 +547,11 @@
                         "_token": csrf_token
                     },
                     success: function(data) {
-                        window.location = "{{ url('/movie-list-search') }}";
+                        if (is_search == 'advance') {
+                            window.location = "{{ url('/movie-advance-search') }}";
+                        } else {
+                            window.location = "{{ url('/movie-list-search') }}";
+                        }
                     }
                 })
             })
@@ -446,6 +639,27 @@
 
     @if ($view == 'home')
         <script>
+            $("#search_movie_type").change(function() {
+                var selected = $(this).val();
+                var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "{{ route('movie.type.change') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        "selected": selected,
+                        "_token": csrf_token
+                    },
+                    success: function(data) {
+                        var html = '';
+                        for (var i = 0; i < data.data.length; i++) {
+                            html += '<option value="' + data.data[i] + '">' + data.data[i] + '</option>';
+                        }
+                        $("#search_movie_genre").html(html);
+                    }
+                });
+            })
+
             $("#form-cari").submit(function(e) {
                 e.preventDefault();
                 $.ajax({

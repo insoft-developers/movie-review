@@ -162,7 +162,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            Dashmin © 2020 created by <a href="https://www.themelooks.com/"> ThemeLooks</a>
+            Admin Dashboard © {{ date('Y') }} created by <a href="{{ url('/') }}"> &nbsp;Block Buster</a>
         </footer>
         <!-- End Footer -->
     </div>

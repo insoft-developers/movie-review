@@ -49,9 +49,16 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('mvadmin/subcategory') }}">
+                <a href="{{ url('mvadmin/report_dead_link') }}">
                     <i class="icofont-dice-multiple"></i>
                     <span class="link-title">Report Dead Links</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url('mvadmin/footer') }}">
+                    <i class="icofont-dice-multiple"></i>
+                    <span class="link-title">Footer</span>
                 </a>
             </li>
 

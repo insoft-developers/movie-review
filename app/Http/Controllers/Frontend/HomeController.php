@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Footer;
 use App\Models\HowToDownload;
 use App\Models\MovieList;
 use App\Models\ReportLink;
@@ -45,6 +46,8 @@ class HomeController extends Controller
         }
 
         $mlist = $query->paginate($movie_per_page);
+
+        $tahun_release = array_unique($tahun_release);
 
         sort($tahun_release);
 
@@ -182,7 +185,7 @@ class HomeController extends Controller
         $input = $request->all();
         session([
             'search_movie_name' => $input['search_movie_name'],
-            'search_movie_rating' => $input['search_movie_rating'],
+            'search_movie_genre' => $input['search_movie_genre'],
             'search_movie_type' => $input['search_movie_type'],
             'search_movie_year' => $input['search_movie_year'],
         ]);
@@ -196,7 +199,7 @@ class HomeController extends Controller
         $judul = 'Search ';
 
         $search_name = session('search_movie_name') ?? '';
-        $search_rating = session('search_movie_rating') ?? '';
+        $search_genre = session('search_movie_genre') ?? '';
         $search_type = session('search_movie_type') ?? '';
         $search_year = session('search_movie_year') ?? '';
 
@@ -204,7 +207,7 @@ class HomeController extends Controller
 
         if (!empty($search_name)) {
             $query->where('title', 'LIKE', '%' . $search_name . '%');
-            $judul .= ' Name : '.$search_name .' -';
+            $judul .= ' Name : ' . $search_name . ' -';
         }
         if (!empty($search_type)) {
             if ($search_type == 'movie') {
@@ -215,30 +218,22 @@ class HomeController extends Controller
                     $q->orWhere('category', 'series');
                 });
             }
-            $judul .= ' Type : '.$search_type.' -';
+            $judul .= ' Type : ' . $search_type . ' -';
         }
 
         if (!empty($search_year)) {
             $query->where('released', 'LIKE', '%' . $search_year . '%');
-            $judul .= ' Year : '.$search_year.' -';
+            $judul .= ' Year : ' . $search_year . ' -';
         }
 
-        if (!empty($search_rating)) {
-            $rati = (int) $search_rating;
-
-            if ($rati > 0) {
-                $query->where('ratings', '>=', $search_rating);
-            } else {
-                $query->where('ratings', '<=', abs($rati));
-            }
-
-            $judul .= ' Rating : '.$search_rating.'';
+        if (!empty($search_genre)) {
+            $query->where('genre', 'LIKE', '%' . $search_genre . '%');
+            $judul .= ' Genre : ' . $search_genre . '';
         }
 
         $movie_per_page_sub = session('movie_per_page_search') ?? 10;
 
         $movie_order = session('order_movie_search') ?? 'pop_desc';
-
 
         if ($movie_order == 'pop_desc') {
             $query->orderBy('imdb_votes', 'desc');
@@ -256,12 +251,164 @@ class HomeController extends Controller
 
         // dd($rati);
 
+        $movie = $query->paginate($movie_per_page_sub);
+        $movie_count = $query->count();
+        $is_search = 'home';
+
+        return view('frontend.movie', compact('view', 'judul', 'movie', 'movie_count', 'movie_order', 'movie_per_page_sub','is_search'));
+    }
+
+    public function movie_type_change(Request $request)
+    {
+        $input = $request->all();
+        $query = MovieList::query();
+        if ($input['selected'] == 'movie') {
+            $query->where('type', 'movie');
+        } else {
+            $query->where(function ($q) {
+                $q->where('type', 'tv-show')->orWhere('type', 'series');
+            });
+        }
+
+        $movie = $query->get();
+
+        $list_genres = [];
+        foreach ($movie as $m) {
+            array_push($list_genres, $m->genre);
+        }
+
+        $allGenres = [];
+
+        foreach ($list_genres as $genres) {
+            $genreList = array_map('trim', explode(',', $genres));
+            $allGenres = array_merge($allGenres, $genreList);
+        }
+
+        $uniqueGenres = array_unique($allGenres);
+        sort($uniqueGenres);
+
+        return response()->json([
+            'success' => true,
+            'data' => $uniqueGenres,
+        ]);
+    }
+
+
+    public function search_advance(Request $request) {
+        $input = $request->all();
+
+        session([
+            "name_search_advance"=> $input['name_search_advance'],
+            "type_search_advance"=> $input['type_search_advance'],
+            "genre_search_advance" => $input['genre_search_advance'],
+            "rating_search_advance" => $input['rating_search_advance'],
+            "year_search_advance" => $input['year_search_advance'],
+            "lang_search_advance" => $input['lang_search_advance'],
+            "order_search_advance" => $input['order_search_advance']
+        ]);
         
+        return response()->json(true);
+    }
+
+
+    public function movie_advance_search()
+    {
+        $view = 'movie-search';
+        $judul = 'Search ';
+
+        $search_name = session('name_search_advance') ?? '';
+        $search_genre = session('genre_search_advance') ?? '';
+        $search_type = session('type_search_advance') ?? '';
+        $search_year = session('year_search_advance') ?? '';
+        $search_lang = session('lang_search_advance') ?? '';
+        $search_rating = session('rating_search_advance') ?? '';
+        $search_order = session('order_search_advance') ?? '';
+
+        $query = MovieList::query();
+
+        if (!empty($search_name)) {
+            $query->where('title', 'LIKE', '%' . $search_name . '%');
+            $judul .= ' Name : ' . $search_name . ' -';
+        }
+        if (!empty($search_type)) {
+            if ($search_type == 'movie') {
+                $query->where('category', 'movie');
+            } else {
+                $query->where(function ($q) {
+                    $q->where('category', 'tv-show');
+                    $q->orWhere('category', 'series');
+                });
+            }
+            $judul .= ' Type : ' . $search_type . ' -';
+        }
+
+        if (!empty($search_year)) {
+            $query->where('released', 'LIKE', '%' . $search_year . '%');
+            $judul .= ' Year : ' . $search_year . ' -';
+        }
+        if (!empty($search_lang)) {
+            $query->where('language', 'LIKE', '%' . $search_lang . '%');
+            $judul .= ' Language : ' . $search_lang . ' -';
+        }
+
+        if (!empty($search_genre)) {
+            $query->where('genre', 'LIKE', '%' . $search_genre . '%');
+            $judul .= ' Genre : ' . $search_genre . '';
+        }
+
+        if (!empty($search_order)) {
+            if($search_order == 'latest') {
+                $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') DESC");
+            } else {
+               $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') ASC");
+            }
+            
+            $judul .= ' Order : ' . $search_order . '';
+        }
+
+        if (!empty($search_rating)) {
+            $awal = (int)$search_rating;
+            $akhir = (int)$search_rating + 1;
+            $query->where('ratings', '>=', $awal);
+            $query->where('ratings', '<', $akhir);
+            $judul .= ' Rating : ' . $search_genre . '';
+        }
+
+
+
+        $movie_per_page_sub = session('movie_per_page_search') ?? 10;
+
+        $movie_order = session('order_movie_search') ?? 'pop_desc';
+
+        if ($movie_order == 'pop_desc') {
+            $query->orderBy('imdb_votes', 'desc');
+        } elseif ($movie_order == 'pop_asc') {
+            $query->orderBy('imdb_votes', 'asc');
+        } elseif ($movie_order == 'rating_desc') {
+            $query->orderBy('ratings', 'desc');
+        } elseif ($movie_order == 'rating_asc') {
+            $query->orderBy('ratings', 'asc');
+        } elseif ($movie_order == 'release_desc') {
+            $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') DESC");
+        } elseif ($movie_order == 'release_asc') {
+            $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') ASC");
+        }
+
+        // dd($rati);
 
         $movie = $query->paginate($movie_per_page_sub);
         $movie_count = $query->count();
-    
+        $is_search = 'advance';
 
-        return view('frontend.movie', compact('view', 'judul', 'movie', 'movie_count', 'movie_order', 'movie_per_page_sub'));
+        return view('frontend.movie', compact('view', 'judul', 'movie', 'movie_count', 'movie_order', 'movie_per_page_sub','is_search'));
     }
+
+
+    public function footer($title) {
+        $view = 'footer';
+        $query = Footer::find(1);
+        $data = $query->$title;
+        return view('frontend.footer', compact('view', 'data','title'));
+    }
+    
 }

@@ -15,3 +15,4 @@
 @include('backend.custom_js.category_js')
 @include('backend.custom_js.subcategory_js')
 @include('backend.custom_js.how_to_js')
+@include('backend.custom_js.footer_js')

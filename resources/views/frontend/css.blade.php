@@ -1,8 +1,52 @@
 <style>
+    .btn-filter-advance{
+            margin-top: 27px;
+    }
+    .mdl-advance {
+        height: 230px;
+        background: #0b1924;
+        width: 74% !important;
+        position: absolute;
+        top: 81px !important;
+        left: 105px;
+        border-radius: 5px;
+        border: 2px solid white;
+        padding-top: 22px;
+    }
+
+    .simple-search-close {
+        color: red;
+        float: right;
+        margin-top: 5px;
+        margin-right: 5px;
+        font-weight: bold;
+    }
+
+    .advance-search-close {
+        color: red;
+        float: right;
+        margin-top: 5px;
+        margin-right: 5px;
+        font-weight: bold;
+        bottom: -79px !important;
+        position: relative;
+    }
+
+    .mdl {
+        height: 87px;
+        background: #0b1924;
+        width: 24% !important;
+        position: absolute;
+        top: 81px !important;
+        left: 742px;
+        border-radius: 5px;
+        border: 2px solid white;
+        padding-top: 22px;
+    }
+
     @if ($view == 'report-link')
-      
-        nav[role="navigation"] 
-        {
+
+        nav[role="navigation"] {
             display: block;
             float: right;
             margin-top: -11px;

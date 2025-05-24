@@ -251,23 +251,11 @@
 
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label>Rating Range</label>
+                                        <label>Genre</label>
 
-                                        <select id="search_movie_rating" name="search_movie_rating">
-                                            <option value="">All Rating</option>
-                                            <option value="4">4+</option>
-                                            <option value="5">5+</option>
-                                            <option value="6">6+</option>
-                                            <option value="7">7+</option>
-                                            <option value="8">8+</option>
-                                            <option value="9">9+</option>
-
-                                            <option value="-4">4 -</option>
-                                            <option value="-5">5 -</option>
-                                            <option value="-6">6 -</option>
-                                            <option value="-7">7 -</option>
-                                            <option value="-8">8 -</option>
-                                            <option value="-9">9 -</option>
+                                        <select id="search_movie_genre" name="search_movie_genre">
+                                            <option value="">Pilih Type Dahulu</option>
+                                            
                                         </select>
 
                                     </div>

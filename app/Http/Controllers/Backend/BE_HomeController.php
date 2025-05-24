@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Footer;
 use App\Models\HowToDownload;
+use App\Models\ReportLink;
 use Illuminate\Http\Request;
 
 class BE_HomeController extends Controller
@@ -22,6 +24,43 @@ class BE_HomeController extends Controller
     public function update_how(Request $request) {
         HowToDownload::where('id', 1)->update([
             "download_info" => $request->download_info
+        ]);
+
+        return redirect()->back()->with('success', 'Data updated successfully!');
+        
+    }
+
+
+    public function footer() {
+        $view = 'footer-menu';
+        $data = Footer::find(1);
+        return view('backend.footer', compact('view','data'));
+    }
+
+
+    public function footer_update(Request $request) {
+        Footer::where('id', 1)->update([
+            "request_us" => $request->request_us,
+            "dmca" => $request->dmca,
+            "contact_us" => $request->contact_us,
+            "about_us" => $request->about_us,
+            "site_disclaimer" => $request->site_disclaimer
+        ]);
+
+        return redirect()->back()->with('success', 'Data updated successfully!');
+        
+    }
+
+    public function report_dead_link() {
+        $view = 'report-dead-link';
+        $data = ReportLink::find(1);
+        return view('backend.report_link', compact('view','data'));
+    }
+
+
+    public function dead_link_update(Request $request) {
+        ReportLink::where('id', 1)->update([
+            "report_dead_link" => $request->report_dead_link
         ]);
 
         return redirect()->back()->with('success', 'Data updated successfully!');
