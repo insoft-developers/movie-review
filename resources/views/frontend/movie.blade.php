@@ -5,6 +5,116 @@
     </div>
     <div class="page-single">
         <div class="container">
+            @if($is_search == 'advance')
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 advance-container">
+                    <div class="title-hd">
+                        <h2>Advance Search</h2>
+
+                    </div>
+                    <form id="form-search-advance">
+                        @csrf
+                        <div class="col-md-12 form-it">
+
+                            <div class="row">
+                                <div class="col-md-12 form-it" style="margin-bottom: 10px;">
+                                    <input id="name_search_advance" name="name_search_advance" type="text"
+                                        placeholder="Search Movie Title">
+                                </div>
+                                <div class="col-md-2 form-it">
+                                    <select id="type_search_advance" name="type_search_advance">
+                                        <option value="">All Type</option>
+                                        <option value="movie">Movie</option>
+                                        <option value="tv-show">TV Show</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-it">
+                                    <select id="genre_search_advance" name="genre_search_advance">
+                                        <option value="">All Genre</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-it">
+                                    <select id="rating_search_advance" name="rating_search_advance">
+                                        <option value="">All Rating</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-it">
+                                    @php
+                                        $movies = \App\Models\MovieList::all();
+                                        $tahun_release = [];
+                                        foreach ($movies as $mvi) {
+                                            $tahun = explode('–', $mvi->year);
+                                            array_push($tahun_release, $tahun[0]);
+                                        }
+
+                                        $tahun_release = array_unique($tahun_release);
+                                        sort($tahun_release);
+
+                                    @endphp
+                                    <select id="year_search_advance" name="year_search_advance">
+                                        <option value="">All Year</option>
+                                        @foreach ($tahun_release as $th)
+                                            <option value="{{ $th }}">{{ $th }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-it">
+                                    @php
+
+                                        $list_langs = [];
+                                        foreach ($movies as $m) {
+                                            array_push($list_langs, $m->language);
+                                        }
+
+                                        $allLangs = [];
+
+                                        foreach ($list_langs as $langs) {
+                                            $langList = array_map('trim', explode(',', $langs));
+                                            $allLangs = array_merge($allLangs, $langList);
+                                        }
+
+                                        $uniqueLang = array_unique($allLangs);
+                                        sort($uniqueLang);
+
+                                    @endphp
+                                    <select id="lang_search_advance" name="lang_search_advance">
+                                        <option value="">All Language</option>
+                                        @foreach ($uniqueLang as $l)
+                                            <option value="{{ $l }}">{{ $l }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-it">
+                                    <select id="order_search_advance" name="order_search_advance">
+                                        <option value="">Order By</option>
+                                        <option value="latest">Latest</option>
+                                        <option value="newest">Newest</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 mt-10">
+                                    <button type="submit" class="btn btn-success btn-filter-advance">Filter</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+            @endif
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="title-hd">

@@ -1,7 +1,25 @@
 <style>
-    .btn-filter-advance{
-            margin-top: 27px;
+    .advance-container {
+        background: #2424245e;
+        padding-top: 27px;
+        padding-bottom: 27px;
+        padding-left: 17px;
+        padding-right: 17px;
+        border-radius: 5px;
+        margin-bottom: 50px;
     }
+
+    .select2-container {
+        width: 200px !important;
+        padding-left: 23px !important;
+    }
+
+    .quick-search {}
+
+    .btn-filter-advance {
+        margin-top: 27px;
+    }
+
     .mdl-advance {
         height: 230px;
         background: #0b1924;
@@ -120,5 +138,48 @@
 
     .movie-items .movie-item .hvr-inner a {
         font-size: 11px !important;
+    }
+</style>
+
+<style>
+    @media only screen and (max-width: 768px) {
+        #form-search-advance select {
+            margin-bottom: 10px;
+        }
+
+        .movie-items .movie-item {
+            object-fit: cover !important;
+            /* width: 300px !important; */
+            display: block;
+        }
+
+        .movie-poster {
+            height: auto !important;
+        }
+
+
+        .movie-items .movie-item .title-in {
+            margin-left: 60px;
+            margin-bottom: 115px;
+        }
+
+        .movie-item-style-2 img {
+            width: auto !important;
+            margin-bottom: 15px;
+        }
+
+        .movie-item-style-2 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .list-poster  {
+            height: 226px !important;
+            width: 19% !important;
+            object-fit: cover !important;
+            position: relative;
+            top: -97px;
+        }
+
     }
 </style>

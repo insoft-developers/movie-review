@@ -5,7 +5,7 @@
             <div class="hero2"></div>
         </div>
     
-    <div class="page-single movie-single movie_single" style="margin-top:-600px;">
+    <div class="page-single movie-single movie_single" style="margin-top:-600px;padding-bottom:130px;">
         <div class="container">
             <div class="row ipad-width2">
                 <div class="col-md-4 col-sm-12 col-xs-12">
@@ -150,4 +150,5 @@
             </div>
         </div>
     </div>
+   
 @endsection

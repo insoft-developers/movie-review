@@ -46,7 +46,7 @@ Route::post('/search_advance', [HomeController::class, 'search_advance'])->name(
 Route::post('/movie_per_page_search', [HomeController::class, 'movie_per_page_search'])->name('movie.per.page.search');
 Route::post('/order_movie_search', [HomeController::class, 'order_movie_search'])->name('order.movie.search');
 
-Route::get('/movie-list-search', [HomeController::class, 'movie_list_search']);
+Route::get('/movie-list-search/{is_search}', [HomeController::class, 'movie_list_search']);
 Route::get('/movie-advance-search', [HomeController::class, 'movie_advance_search']);
 
 Route::post('/movie_home_search', [HomeController::class, 'movie_home_search'])->name('movie.home.search');

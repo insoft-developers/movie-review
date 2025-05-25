@@ -193,7 +193,7 @@ class HomeController extends Controller
         return response()->json(true);
     }
 
-    public function movie_list_search()
+    public function movie_list_search($is_search)
     {
         $view = 'movie-search';
         $judul = 'Search ';
@@ -253,7 +253,7 @@ class HomeController extends Controller
 
         $movie = $query->paginate($movie_per_page_sub);
         $movie_count = $query->count();
-        $is_search = 'home';
+       
 
         return view('frontend.movie', compact('view', 'judul', 'movie', 'movie_count', 'movie_order', 'movie_per_page_sub','is_search'));
     }

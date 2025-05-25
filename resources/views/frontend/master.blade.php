@@ -239,15 +239,22 @@
                                 Report Dead Links
                             </a>
                         </li>
+
                         <li class="dropdown first">
-                            <a onclick="simple_search()" href="javasript:void(0);" class="btn btn-default">
-                                Simple Search
+                            <a href="{{ url('/movie-list-search/advance') }}" class="btn btn-default">
+                                Advance Search
                             </a>
                         </li>
                         <li class="dropdown first">
-                            <a onclick="advance_search()" href="javasript:void(0);" class="btn btn-default">
-                                Advance Search
-                            </a>
+                            @php
+                                $mvs = \App\Models\MovieList::all();
+                            @endphp
+                            <select class="quick-search" id="simple_search_select" name="simple_search_select">
+                                <option value="" disabled selected>&nbsp;Quick Search</option>
+                                @foreach ($mvs as $m)
+                                    <option value="{{ $m->slug }}">{{ $m->title }}</option>
+                                @endforeach
+                            </select>
                         </li>
 
                     </ul>
@@ -264,150 +271,24 @@
     @yield('content')
 
     <!--end of latest new v2 section-->
-    <!-- footer v2 section-->
-
-    <!-- Modal -->
-    <div class="mdl" id="modal-search" style="display: none;">
-
-        <div class="col-md-12 form-it">
-
-            <div class="row">
-                <div class="col-md-12">
-                    @php
-                        $mvs = \App\Models\MovieList::all();
-                    @endphp
-                    <select id="simple_search_movie_title" style="width: 100%">
-                        <option value="">Search movie title</option>
-                        @foreach ($mvs as $m)
-                            <option value="{{ $m->slug }}">{{ $m->title }}</option>
-                        @endforeach
-                        </option>
-                    </select>
-                </div>
-                <div class="col-md-12">
-                    <a onclick="search_modal_close()" href="javascript:void(0);"
-                        class="simple-search-close">Cancel</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-
-    <!-- Modal -->
-    <div class="mdl-advance" id="modal-advance" style="display: none;">
-        <form id="form-search-advance">
-            @csrf
-            <div class="col-md-12 form-it">
-
-                <div class="row">
-                    <div class="col-md-12 form-it" style="margin-bottom: 10px;">
-                        <input id="name_search_advance" name="name_search_advance" type="text"
-                            placeholder="Search Movie Title">
-                    </div>
-                    <div class="col-md-2 form-it">
-                        <select id="type_search_advance" name="type_search_advance">
-                            <option value="">All Type</option>
-                            <option value="movie">Movie</option>
-                            <option value="tv-show">TV Show</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 form-it">
-                        <select id="genre_search_advance" name="genre_search_advance">
-                            <option value="">All Genre</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 form-it">
-                        <select id="rating_search_advance" name="rating_search_advance">
-                            <option value="">All Rating</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-2 form-it">
-                        @php
-                            $movies = \App\Models\MovieList::all();
-                            $tahun_release = [];
-                            foreach ($movies as $mvi) {
-                                $tahun = explode('–', $mvi->year);
-                                array_push($tahun_release, $tahun[0]);
-                            }
-
-                            $tahun_release = array_unique($tahun_release);
-                            sort($tahun_release);
-
-                        @endphp
-                        <select id="year_search_advance" name="year_search_advance">
-                            <option value="">All Year</option>
-                            @foreach ($tahun_release as $th)
-                                <option value="{{ $th }}">{{ $th }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2 form-it">
-                        @php
-
-                            $list_langs = [];
-                            foreach ($movies as $m) {
-                                array_push($list_langs, $m->language);
-                            }
-
-                            $allLangs = [];
-
-                            foreach ($list_langs as $langs) {
-                                $langList = array_map('trim', explode(',', $langs));
-                                $allLangs = array_merge($allLangs, $langList);
-                            }
-
-                            $uniqueLang = array_unique($allLangs);
-                            sort($uniqueLang);
-
-                        @endphp
-                        <select id="lang_search_advance" name="lang_search_advance">
-                            <option value="">All Language</option>
-                            @foreach ($uniqueLang as $l)
-                                <option value="{{ $l }}">{{ $l }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2 form-it">
-                        <select id="order_search_advance" name="order_search_advance">
-                            <option value="">Order By</option>
-                            <option value="latest">Latest</option>
-                            <option value="newest">Newest</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-12 mt-10">
-                        <button type="submit" class="btn btn-success btn-filter-advance">Filter</button>
-                        <a onclick="search_advance_close()" href="javascript:void(0);"
-                            class="advance-search-close">Cancel</a>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-    </div>
-
+   
 
 
     <footer class="ht-footer full-width-ft">
 
         <div class="row">
-           
+
             <div class="ft-copyright" style="margin-left:20%;">
                 <div class="ft-left">
-                    <p><a style="color:white;" href="{{ url('how-to-download') }}">How to Download</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('report-link') }}">Report Dead Links</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/request_us') }}">Request Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/dmca') }}">DMCA</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/contact_us') }}">Contact Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/about_us') }}">About Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;" href="{{ url('footer/site_disclaimer') }}">Site Disclaimer</a></p>
+                    <p><a style="color:white;" href="{{ url('how-to-download') }}">How to
+                            Download</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;"
+                            href="{{ url('report-link') }}">Report Dead Links</a>&nbsp;&nbsp;|&nbsp; <a
+                            style="color:white;" href="{{ url('footer/request_us') }}">Request
+                            Us</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;"
+                            href="{{ url('footer/dmca') }}">DMCA</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;"
+                            href="{{ url('footer/contact_us') }}">Contact Us</a>&nbsp;&nbsp;|&nbsp; <a
+                            style="color:white;" href="{{ url('footer/about_us') }}">About Us</a>&nbsp;&nbsp;|&nbsp;
+                        <a style="color:white;" href="{{ url('footer/site_disclaimer') }}">Site Disclaimer</a></p>
                 </div>
                 <div class="backtotop">
                     <p><a href="#" id="back-to-top">Back to top <i class="ion-ios-arrow-thin-up"></i></a></p>
@@ -430,6 +311,8 @@
 
 
     <script>
+        $("#simple_search_select").select2();
+
         $("#form-search-advance").submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -488,7 +371,7 @@
         }
 
 
-        $('#simple_search_movie_title').change(function() {
+        $('#simple_search_select').change(function() {
             var slug = $(this).val();
             console.log(slug);
             window.location.href = "{{ url('movie/single') }}" + "/" + slug; // pindah ke link yang dipilih
@@ -527,7 +410,7 @@
                         if (is_search == 'advance') {
                             window.location = "{{ url('/movie-advance-search') }}";
                         } else {
-                            window.location = "{{ url('/movie-list-search') }}";
+                            window.location = "{{ url('/movie-list-search') }}"+"/"+is_search;
                         }
 
                     }
@@ -550,7 +433,7 @@
                         if (is_search == 'advance') {
                             window.location = "{{ url('/movie-advance-search') }}";
                         } else {
-                            window.location = "{{ url('/movie-list-search') }}";
+                             window.location = "{{ url('/movie-list-search') }}"+"/"+is_search;
                         }
                     }
                 })
@@ -669,7 +552,7 @@
                     data: $(this).serialize(),
                     success: function(data) {
                         console.log(data);
-                        window.location = "{{ url('movie-list-search') }}";
+                        window.location = "{{ url('movie-list-search') }}"+"/home";
                     }
                 })
 
