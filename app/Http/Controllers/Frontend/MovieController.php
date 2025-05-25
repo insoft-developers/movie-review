@@ -102,8 +102,8 @@ class MovieController extends Controller
         $movie_count = $query->count();
 
         $movie = $query->paginate($movie_per_page_sub);
-
-        return view('frontend.movie', compact('view', 'movie', 'judul','movie_per_page_sub','movie_order','movie_count'));
+         $is_search = 'home';
+        return view('frontend.movie', compact('view', 'movie', 'judul','movie_per_page_sub','movie_order','movie_count','is_search'));
     }
 
     public function single($title)
