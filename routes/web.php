@@ -138,7 +138,7 @@ Route::group(['prefix' => 'mvadmin', 'middleware' => ['auth:admin']], function (
     Route::get('setting_table', [SettingController::class, 'setting_table'])->name('setting.table');
 
     Route::resource('profile', ProfileController::class);
-    Route::post('profile_update', [ProfileController::class, 'profile_update'])->name('profile.update');
+    Route::post('profile_update', [ProfileController::class, 'profile_update'])->name('profile.renew');
 
     Route::get('/change_password', [ProfileController::class, 'change_password']);
     Route::post('/password_update', [ProfileController::class, 'password_update'])->name('password.renew');

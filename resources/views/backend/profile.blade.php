@@ -28,7 +28,7 @@
                                     @endif
                                     <h4 class="mb-4">Account Settings</h4>
 
-                                    <form action="{{ route('profile.update') }}" method="POST">
+                                    <form action="{{ route('profile.renew') }}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-6">
