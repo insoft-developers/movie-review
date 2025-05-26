@@ -1,9 +1,12 @@
+@php
+    $setting = \App\Models\Setting::find(1);
+@endphp
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
     <!-- Page Title -->
-    <title>Movie Review - Admin Panel</title>
+    <title>{{ $setting->app_name }} - Admin Panel</title>
 
     <!-- Meta Data -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +17,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('template/backend') }}/assets/img/favicon.png">
+    <link rel="shortcut icon" href="{{ asset('template/setting/'.$setting->app_icon) }}">
 
     <!-- Web Fonts -->
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
@@ -56,10 +59,10 @@
         <header class="header fixed-top d-flex align-content-center flex-wrap">
             <!-- Logo -->
             <div class="logo">
-                <a href="index.html" class="default-logo"><img src="{{ asset('template/backend') }}/assets/img/logo.png"
+                <a href="index.html" class="default-logo"><img src="{{ asset('template/setting/'.$setting->app_icon) }}"
                         alt=""></a>
                 <a href="index.html" class="mobile-logo"><img
-                        src="{{ asset('template/backend') }}/assets/img/mobile-logo.png" alt=""></a>
+                        src="{{ asset('template/setting/'.$setting->app_icon) }}" alt=""></a>
             </div>
             <!-- End Logo -->
 
@@ -96,10 +99,18 @@
                                         </div>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a href="#">My Profile</a>
-                                        <a href="#">task</a>
-                                        <a href="#">Settings</a>
-                                        <a href="#">Log Out</a>
+                                        <a href="{{ url('mvadmin/profile') }}">My Profile</a>
+
+                                        <a href="{{ url('mvadmin/change_password') }}">Change Password</a>
+                                        <a href="#"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Log Out
+                                        </a>
+                                        <!-- Form Logout Tersembunyi -->
+                                        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </div>
                                 <!-- End Main Header User -->
@@ -119,7 +130,7 @@
                             <!-- Header Right -->
                             <div class="main-header-right d-flex justify-content-end">
                                 <ul class="nav">
-                                  
+
                                     <li class="d-none d-lg-flex">
                                         <!-- Main Header Time -->
                                         <div class="main-header-date-time text-right">
@@ -133,10 +144,10 @@
                                         </div>
                                         <!-- End Main Header Time -->
                                     </li>
-                                   
-                                   
-                                   
-                                  
+
+
+
+
                                 </ul>
                             </div>
                             <!-- End Header Right -->
@@ -162,7 +173,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            Admin Dashboard © {{ date('Y') }} created by <a href="{{ url('/') }}"> &nbsp;Block Buster</a>
+            Admin Dashboard © {{ date('Y') }} created by <a href="{{ url('/') }}"> &nbsp;{{ $setting->app_name }}</a>
         </footer>
         <!-- End Footer -->
     </div>
@@ -187,7 +198,7 @@
 
     <script src="{{ asset('template/backend') }}/assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-    
+
 
     <!-- ======= End BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS ======= -->
 

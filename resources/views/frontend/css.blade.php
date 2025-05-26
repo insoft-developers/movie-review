@@ -179,6 +179,7 @@
             object-fit: cover !important;
             position: relative;
             top: -97px;
+                    margin-right: 20px !important;
         }
 
     }

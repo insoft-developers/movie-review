@@ -3,10 +3,33 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => $exception->getMessage()], 401);
+        }
+
+        $guard = $exception->guards()[0] ?? null;
+
+        switch ($guard) {
+            case 'admin':
+                $login = route('show.login'); // pastikan route ini ada
+                break;
+
+            default:
+                $login = route('login');
+                break;
+        }
+
+        return redirect()->guest($login);
+    }
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -30,11 +53,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
 
     /**
      * Register the exception handling callbacks for the application.

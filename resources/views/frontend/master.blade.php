@@ -8,9 +8,13 @@
 <!--[if !(IE 7) | !(IE 8)  ]><!-->
 <html lang="en" class="no-js">
 
+@php
+$setting = \App\Models\Setting::find(1);
+@endphp
+
 <head>
     <!-- Basic need -->
-    <title>Movie-Reviews</title>
+    <title>{{ $setting->app_title }}</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -19,6 +23,7 @@
 
     <!--Google Font-->
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
+    <link rel="shortcut icon" href="{{ asset('template/setting/'.$setting->app_icon) }}">
     <!-- Mobile specific meta -->
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -40,7 +45,7 @@
 <body>
     <!--preloading-->
     <div id="preloader">
-        <img class="logo" src="{{ asset('template/frontend') }}/images/logo1.png" alt="" width="119"
+        <img class="logo" src="{{ asset('template/setting/'.$setting->app_icon) }}" alt="" width="119"
             height="58">
         <div id="status">
             <span></span>
@@ -177,7 +182,7 @@
                         </div>
                     </div>
                     <a href="{{ url('/') }}"><img class="logo"
-                            src="{{ asset('template/frontend') }}/images/logo1.png" alt="" width="119"
+                            src="{{ asset('template/setting/'.$setting->app_icon) }}" alt="" width="119"
                             height="58"></a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -252,7 +257,8 @@
                             <select class="quick-search" id="simple_search_select" name="simple_search_select">
                                 <option value="" disabled selected>&nbsp;Quick Search</option>
                                 @foreach ($mvs as $m)
-                                    <option value="{{ $m->slug }}">{{ $m->title }}</option>
+                                    <option value="{{ $m->slug }}" data-image="{{ $m->poster }}">
+                                        {{ $m->title }}</option>
                                 @endforeach
                             </select>
                         </li>
@@ -271,7 +277,7 @@
     @yield('content')
 
     <!--end of latest new v2 section-->
-   
+
 
 
     <footer class="ht-footer full-width-ft">
@@ -288,7 +294,8 @@
                             href="{{ url('footer/dmca') }}">DMCA</a>&nbsp;&nbsp;|&nbsp; <a style="color:white;"
                             href="{{ url('footer/contact_us') }}">Contact Us</a>&nbsp;&nbsp;|&nbsp; <a
                             style="color:white;" href="{{ url('footer/about_us') }}">About Us</a>&nbsp;&nbsp;|&nbsp;
-                        <a style="color:white;" href="{{ url('footer/site_disclaimer') }}">Site Disclaimer</a></p>
+                        <a style="color:white;" href="{{ url('footer/site_disclaimer') }}">Site Disclaimer</a>
+                    </p>
                 </div>
                 <div class="backtotop">
                     <p><a href="#" id="back-to-top">Back to top <i class="ion-ios-arrow-thin-up"></i></a></p>
@@ -311,7 +318,19 @@
 
 
     <script>
-        $("#simple_search_select").select2();
+        $("#simple_search_select").select2(
+        {
+    templateResult: formatOption,
+    templateSelection: formatOption,
+   // optional: hide search box
+  });
+
+        function formatOption(option) {
+            if (!option.id) return option.text;
+            const image = $(option.element).data('image');
+            return $(
+            `<span><img src="${image}" style="width:20px; height:30px; margin-right:5px;border-radius:4px;" />${option.text}</span>`);
+        }
 
         $("#form-search-advance").submit(function(e) {
             e.preventDefault();
@@ -410,7 +429,7 @@
                         if (is_search == 'advance') {
                             window.location = "{{ url('/movie-advance-search') }}";
                         } else {
-                            window.location = "{{ url('/movie-list-search') }}"+"/"+is_search;
+                            window.location = "{{ url('/movie-list-search') }}" + "/" + is_search;
                         }
 
                     }
@@ -433,7 +452,7 @@
                         if (is_search == 'advance') {
                             window.location = "{{ url('/movie-advance-search') }}";
                         } else {
-                             window.location = "{{ url('/movie-list-search') }}"+"/"+is_search;
+                            window.location = "{{ url('/movie-list-search') }}" + "/" + is_search;
                         }
                     }
                 })
@@ -552,7 +571,7 @@
                     data: $(this).serialize(),
                     success: function(data) {
                         console.log(data);
-                        window.location = "{{ url('movie-list-search') }}"+"/home";
+                        window.location = "{{ url('movie-list-search') }}" + "/home";
                     }
                 })
 

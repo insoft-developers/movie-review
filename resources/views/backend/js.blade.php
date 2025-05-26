@@ -16,3 +16,5 @@
 @include('backend.custom_js.subcategory_js')
 @include('backend.custom_js.how_to_js')
 @include('backend.custom_js.footer_js')
+@include('backend.custom_js.admin_js')
+@include('backend.custom_js.setting_js')

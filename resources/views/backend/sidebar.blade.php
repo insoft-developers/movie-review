@@ -65,36 +65,20 @@
             <li class="nav-category">settings</li>
 
             <li>
-                <a href="pages/apps/chat.html">
+                <a href="{{ url('mvadmin/setting') }}">
                     <i class="icofont-automation"></i>
-                    <span class="link-title">General Setting</span>
+                    <span class="link-title">Setting</span>
                 </a>
             </li>
             <li class="nav-category">admins</li>
 
             <li>
-                <a href="pages/apps/chat.html">
+                <a href="{{ url('mvadmin/admin') }}">
                     <i class="icofont-contacts"></i>
                     <span class="link-title">Admin List</span>
                 </a>
             </li>
-            {{-- <li>
-                     <a href="#">
-                        <i class="icofont-listing-box"></i>
-                        <span class="link-title">To Do List</span>
-                     </a>
-
-                     <!-- Sub Menu -->
-                     <ul class="nav sub-menu">
-                        <li><a href="pages/apps/todolist/todolist.html">Tasks</a></li>
-                        <li><a href="pages/apps/todolist/add-new.html">add new</a></li>
-                        <li><a href="pages/apps/todolist/task-details.html">details</a></li>
-                     </ul>
-                     <!-- End Sub Menu -->
-                  </li> --}}
-
-
-            <li class="nav-category">Support</li>
+           
         </ul>
         <!-- End Nav -->
     </div>
