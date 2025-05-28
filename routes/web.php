@@ -98,11 +98,11 @@ Route::group(['prefix' => 'mvadmin', 'middleware' => ['auth:admin']], function (
     Route::get('/report_dead_link', [BE_HomeController::class, 'report_dead_link']);
     Route::post('/dead_link_update', [BE_HomeController::class, 'dead_link_update'])->name('update.dead.link');
 
-    Route::resource('admin', AdminController::class);
-    Route::get('/admin_table', [AdminController::class, 'admin_table'])->name('admin.table');
+    Route::resource('admin', AdminController::class)->middleware('superadmin');
+    Route::get('/admin_table', [AdminController::class, 'admin_table'])->name('admin.table')->middleware('superadmin');
 
-    Route::resource('setting', SettingController::class);
-    Route::get('setting_table', [SettingController::class, 'setting_table'])->name('setting.table');
+    Route::resource('setting', SettingController::class)->middleware('superadmin');
+    Route::get('setting_table', [SettingController::class, 'setting_table'])->name('setting.table')->middleware('superadmin');
 
     Route::resource('profile', ProfileController::class);
     Route::post('profile_update', [ProfileController::class, 'profile_update'])->name('profile.renew');
