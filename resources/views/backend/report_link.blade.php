@@ -63,7 +63,7 @@
                                                         <td style="color:yellow;padding-left:150px;">Reply : <br><br>
                                                             {{ date('d-m-Y H:i', strtotime($sub->created_at)) }}<br>
                                                             {{ $sub->name }} - {{ $sub->email }} <i
-                                                                onclick="delete_comment({{ $c->id }})"
+                                                                onclick="delete_comment({{ $sub->id }})"
                                                                 style="color: red;font-size:20px;float:right;cursor: pointer;"
                                                                 class="icofont-delete"></i><br><br>
 
@@ -74,7 +74,7 @@
                                                             <br><br>
                                                             {{ date('d-m-Y H:i', strtotime($sub->created_at)) }}<br>
                                                             {{ $sub->name }} - {{ $sub->email }} <i
-                                                                onclick="delete_comment({{ $c->id }})"
+                                                                onclick="delete_comment({{ $sub->id }})"
                                                                 style="color: red;font-size:20px;float:right;cursor: pointer;"
                                                                 class="icofont-delete"></i><br><br>
 
