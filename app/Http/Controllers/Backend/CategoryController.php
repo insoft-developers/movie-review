@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
@@ -136,17 +137,25 @@ class CategoryController extends Controller
         return DataTables::of($data)
            
             ->addColumn('action', function ($data) {
-                return '
-                <a title="Edit Data" onclick="editData(' .
+                $btn = '';
+
+                $btn .=
+                    '<a title="Edit Data" onclick="editData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="btn btn-insoft btn-warning">
                   <i class="icofont-edit icon-insoft"></i>
-                </a>
-                <a style="margin-left:8px;" title="Delete Data" onclick="deleteData(' .
-                    $data->id .
-                    ')" href="javascript:void(0)" class="btn btn-insoft btn-danger">
+                </a>';
+
+                if (Auth::guard('admin')->user()->level == 'super') {
+                    $btn .=
+                        '<a style="margin-left:8px;" title="Delete Data" onclick="deleteData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="btn btn-insoft btn-danger">
                   <i class="icofont-ui-delete icon-insoft"></i>
                 </a>';
+                }
+
+                return $btn;
             })
             ->rawColumns(['action'])
             ->addIndexColumn()

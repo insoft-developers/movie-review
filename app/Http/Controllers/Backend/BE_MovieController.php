@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\MovieList;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -19,7 +20,7 @@ class BE_MovieController extends Controller
     {
         $view = 'movie-list';
         $category = Category::all();
-        return view('backend.movie', compact('view','category'));
+        return view('backend.movie', compact('view', 'category'));
     }
 
     /**
@@ -111,7 +112,7 @@ class BE_MovieController extends Controller
                     'slug' => strtolower($slug),
                     'is_popular' => 0,
                     'is_new' => 1,
-                    'is_anime' => 0
+                    'is_anime' => 0,
                 ];
 
                 MovieList::create($insert);
@@ -156,7 +157,7 @@ class BE_MovieController extends Controller
         $rules = [
             'id' => 'required',
             'imdb_id' => 'required',
-            'poster'=> 'required',
+            'poster' => 'required',
             'title' => 'required',
             'category' => 'required',
             'sub_category' => 'required',
@@ -170,13 +171,13 @@ class BE_MovieController extends Controller
             'actors' => 'required',
             'plot' => 'required',
             'download' => 'required',
-           
+
             'is_popular' => 'required',
             'is_new' => 'required',
             'is_anime' => 'required',
             'imdb_rating' => 'required',
             'type' => 'required',
-            'slug' => 'required'
+            'slug' => 'required',
         ];
 
         $validator = Validator::make($input, $rules);
@@ -200,11 +201,10 @@ class BE_MovieController extends Controller
             'success' => true,
             'message' => 'success',
         ]);
-
     }
 
-
-    public function get_sub_category(Request $request) {
+    public function get_sub_category(Request $request)
+    {
         $input = $request->all();
         $data = SubCategory::where('category_slug', $input['cat'])->get();
         return $data;
@@ -265,17 +265,25 @@ class BE_MovieController extends Controller
                 return '<a href="' . $data->poster . '" target="_blank"><img class="be-poster" src="' . $data->poster . '"></a>';
             })
             ->addColumn('action', function ($data) {
-                return '
-                <a title="Edit Data" onclick="editData(' .
+                $btn = '';
+
+                $btn .=
+                    '<a title="Edit Data" onclick="editData(' .
                     $data->id .
                     ')" href="javascript:void(0)" class="btn btn-insoft btn-warning">
                   <i class="icofont-edit icon-insoft"></i>
-                </a>
-                <a style="margin-left:8px;" title="Delete Data" onclick="deleteData(' .
-                    $data->id .
-                    ')" href="javascript:void(0)" class="btn btn-insoft btn-danger">
+                </a>';
+
+                if (Auth::guard('admin')->user()->level == 'super') {
+                    $btn .=
+                        '<a style="margin-left:8px;" title="Delete Data" onclick="deleteData(' .
+                        $data->id .
+                        ')" href="javascript:void(0)" class="btn btn-insoft btn-danger">
                   <i class="icofont-ui-delete icon-insoft"></i>
                 </a>';
+                }
+
+                return $btn;
             })
             ->rawColumns(['action', 'poster'])
             ->addIndexColumn()

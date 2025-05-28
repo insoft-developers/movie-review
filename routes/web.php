@@ -109,6 +109,9 @@ Route::group(['prefix' => 'mvadmin', 'middleware' => ['auth:admin']], function (
 
     Route::get('/change_password', [ProfileController::class, 'change_password']);
     Route::post('/password_update', [ProfileController::class, 'password_update'])->name('password.renew');
+    Route::post('/admin_reply', [BE_HomeController::class, 'admin_reply'])->name('admin.reply');
+    Route::post('/comment_delete', [BE_HomeController::class, 'comment_delete'])->name('comment.delete');
+    Route::get('/comment_search', [BE_HomeController::class, 'comment_search'])->name('comment.search');
 });
 
 require __DIR__ . '/auth.php';
