@@ -1,10 +1,10 @@
 @extends('frontend.master')
 @section('content')
-    <div class="hero common-hero">
-        <div class="container">
+   
+        <div class="hero">
 
         </div>
-    </div>
+    
     <!-- blog detail section-->
     <div class="page-single">
         <div class="container">

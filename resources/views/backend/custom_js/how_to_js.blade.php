@@ -1,7 +1,10 @@
 
 @if($view == 'how-to')
 <script>
-CKEDITOR.replace('download_info');
+CKEDITOR.replace('download_info', {
+    allowedContent: true
+
+});
 
 
 </script>
@@ -9,7 +12,8 @@ CKEDITOR.replace('download_info');
 
 @if($view == 'report-dead-link')
 <script>
-CKEDITOR.replace('report_dead_link');
+CKEDITOR.replace('report_dead_link',{allowedContent: true
+});
 
 
 </script>

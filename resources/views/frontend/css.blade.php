@@ -1,4 +1,17 @@
+
+@if($view == 'home')
 <style>
+    .header{
+        background: transparent !important;
+    }
+
+
+</style>
+@endif
+
+<style>
+    
+
     .advance-container {
         background: #2424245e;
         padding-top: 27px;
@@ -173,13 +186,13 @@
             flex-direction: row;
         }
 
-        .list-poster  {
+        .list-poster {
             height: 226px !important;
             width: 19% !important;
             object-fit: cover !important;
             position: relative;
             top: -97px;
-                    margin-right: 20px !important;
+            margin-right: 20px !important;
         }
 
     }

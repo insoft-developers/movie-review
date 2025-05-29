@@ -1,7 +1,10 @@
 @if ($view == 'movie-list')
     <script>
        
-            CKEDITOR.replace('download');
+            CKEDITOR.replace('download', {
+                allowedContent: true
+
+            });
         
       
         
