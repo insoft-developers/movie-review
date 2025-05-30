@@ -38,96 +38,93 @@ class BE_MovieController extends Controller
     {
         $input = $request->all();
 
-        $rules = [
-            'imdb_id' => 'required',
-        ];
-
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $pesan = $validator->errors();
-            $pesanarr = explode(',', $pesan);
-            $find = ['[', ']', '{', '}'];
-            $html = '';
-            foreach ($pesanarr as $p) {
-                $html .= str_replace($find, '', $p) . '<br>';
-            }
-            return response()->json([
-                'success' => false,
-                'message' => $html,
-            ]);
-        }
-
         try {
-            $id = $input['imdb_id'];
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_URL => 'https://www.omdbapi.com/?i=' . $id . '&apikey=919aecb3',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                // CURLOPT_HTTPHEADER => ['key: ' . config('app.raja_key') . ''],
-            ]);
+            $id_arr = $input['imdb_id'];
+            $ids = explode(";", $id_arr);
 
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                return 'cURL Error #:' . $err;
-            } else {
-                $data = json_decode($response, true);
-
-                $slug = str_replace(' ', '-', $data['Title']);
-
-                $insert = [
-                    'title' => $data['Title'],
-                    'category' => $data['Type'],
-                    'year' => $data['Year'],
-                    'rated' => $data['Rated'],
-                    'released' => $data['Released'],
-                    'run_time' => $data['Runtime'],
-                    'genre' => $data['Genre'],
-                    'director' => $data['Director'],
-                    'writer' => $data['Writer'],
-                    'actors' => $data['Actors'],
-                    'plot' => $data['Plot'],
-                    'language' => $data['Language'],
-                    'country' => $data['Country'],
-                    'awards' => $data['Awards'],
-                    'poster' => $data['Poster'],
-                    'metascore' => $data['Metascore'],
-                    'imdb_rating' => $data['imdbRating'],
-                    'ratings' => $data['imdbRating'],
-                    'imdb_votes' => $data['imdbVotes'],
-                    'imdb_id' => $data['imdbID'],
-                    'type' => $data['Type'],
-                    'dvd' => $request->DVD == null ? null : $data['DVD'],
-                    'box_Office' => $request->BoxOffice == null ? null : $data['BoxOffice'],
-                    'production' => $request->Production == null ? null : $data['Production'],
-                    'website' => $request->Website == null ? null : $data['Website'],
-                    'slug' => strtolower($slug),
-                    'is_popular' => 0,
-                    'is_new' => 1,
-                    'is_anime' => 0,
-                ];
-
-                MovieList::create($insert);
-
-                return response()->json([
-                    'success' => true,
-                    'message' => 'success',
-                ]);
+            foreach ($ids as $id) {
+                $this->insertMovieIfNotExists($id);
             }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Process completed',
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
             ]);
         }
+    }
+
+    protected function insertMovieIfNotExists($imdbId)
+    {
+        // Cek apakah data sudah ada di DB
+        if (MovieList::where('imdb_id', $imdbId)->exists()) {
+            return false; // Sudah ada, skip insert
+        }
+
+        // Fetch data dari API
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://www.omdbapi.com/?i=' . $imdbId . '&apikey=919aecb3',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ]);
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+            return false; // Error saat request, skip insert
+        }
+
+        $data = json_decode($response, true);
+        if (!$data || !isset($data['Title'])) {
+            return false; // Data tidak valid
+        }
+
+        $slug = str_replace(' ', '-', $data['Title']);
+
+        // Insert ke database
+        MovieList::create([
+            'title' => $data['Title'],
+            'category' => $data['Type'],
+            'year' => $data['Year'],
+            'rated' => $data['Rated'],
+            'released' => $data['Released'],
+            'run_time' => $data['Runtime'],
+            'genre' => $data['Genre'],
+            'director' => $data['Director'],
+            'writer' => $data['Writer'],
+            'actors' => $data['Actors'],
+            'plot' => $data['Plot'],
+            'language' => $data['Language'],
+            'country' => $data['Country'],
+            'awards' => $data['Awards'],
+            'poster' => $data['Poster'],
+            'metascore' => $data['Metascore'],
+            'imdb_rating' => $data['imdbRating'],
+            'ratings' => $data['imdbRating'],
+            'imdb_votes' => $data['imdbVotes'],
+            'imdb_id' => $data['imdbID'],
+            'type' => $data['Type'],
+            'dvd' => $data['DVD'] ?? null,
+            'box_Office' => $data['BoxOffice'] ?? null,
+            'production' => $data['Production'] ?? null,
+            'website' => $data['Website'] ?? null,
+            'slug' => strtolower($slug),
+            'is_popular' => 0,
+            'is_new' => 1,
+            'is_anime' => 0,
+        ]);
+
+        return true; // Berhasil insert
     }
 
     /**

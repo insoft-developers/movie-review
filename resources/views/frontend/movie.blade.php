@@ -98,8 +98,8 @@
                                 <div class="col-md-2 form-it">
                                     <select id="order_search_advance" name="order_search_advance">
                                         <option value="">Order By</option>
-                                        <option value="latest">Latest</option>
                                         <option value="newest">Newest</option>
+                                        <option value="latest">Oldest</option>
                                     </select>
                                 </div>
 

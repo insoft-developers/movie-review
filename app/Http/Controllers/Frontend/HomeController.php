@@ -357,13 +357,16 @@ class HomeController extends Controller
         }
 
         if (!empty($search_order)) {
-            if($search_order == 'latest') {
+            if($search_order == 'newest') {
                 $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') DESC");
+                $judul .= ' Order : NEWEST';
             } else {
                $query->orderByRaw("STR_TO_DATE(released, '%d %b %Y') ASC");
+                $judul .= ' Order : OLDEST';
             }
             
-            $judul .= ' Order : ' . $search_order . '';
+
+            
         }
 
         if (!empty($search_rating)) {
