@@ -181,7 +181,7 @@
                                     </select>
                                 </div>
                             </div> --}}
-                            <div class="form-group mb-4">
+                            <div class="form-group mb-4" style="display: none;">
                                 <label for="is_popular" class="mb-2 bold d-block">Use In Banner & Popular</label>
                                 <div class="custom-select style--two">
                                     <select class="theme-input-style" id="is_popular" name="is_popular">

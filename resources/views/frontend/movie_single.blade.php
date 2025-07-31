@@ -64,12 +64,19 @@
                         <div class="movie-tabs">
                             <div class="tabs">
                                 <ul class="tab-links tabs-mv">
-                                    <li class="active ov"><a href="#overview">Overview</a></li>
-                                    <li class="dw"><a href="#reviews"> Downloads</a></li>
+                                    
+                                    <li class="active dw"><a href="#reviews"> Downloads</a></li>
+                                    <li class="ov"><a href="#overview">Overview</a></li>
                                     
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="overview" class="tab active">
+                                    
+                                    <div id="reviews" class="tab review active">
+                                        <div class="row">
+                                            <?= $movie->download ;?>
+                                        </div>
+                                    </div>
+                                    <div id="overview" class="tab">
                                         <div class="row">
                                             <div class="col-md-8 col-sm-12 col-xs-12">
                                                 <p>{{ $movie->plot }}</p>
@@ -134,11 +141,6 @@
                                                     <img src="{{ $movie->poster }}" alt="">
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div id="reviews" class="tab review">
-                                        <div class="row">
-                                            <?= $movie->download ;?>
                                         </div>
                                     </div>
                                     

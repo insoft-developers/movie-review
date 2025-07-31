@@ -15,9 +15,9 @@ class HomeController extends Controller
     public function index()
     {
         $view = 'home';
-        $popular = MovieList::where('is_popular', 1)->orderBy('id', 'asc')->get();
-        $banners = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
-        $new = MovieList::where('is_popular', 1)->orderBy('id', 'desc')->get();
+        $popular = MovieList::whereNotNull('box_office')->orderBy('id', 'asc')->get();
+        $banners = MovieList::whereNotNull('box_office')->orderBy('id', 'desc')->get();
+        $new = MovieList::whereNotNull('box_office')->orderBy('id', 'desc')->get();
         $movie = MovieList::all();
         $movie_per_page = session('movie_per_page') ?? 10;
 

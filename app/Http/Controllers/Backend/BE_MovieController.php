@@ -115,7 +115,7 @@ class BE_MovieController extends Controller
             'imdb_id' => $data['imdbID'],
             'type' => $data['Type'],
             'dvd' => $data['DVD'] ?? null,
-            'box_Office' => $data['BoxOffice'] ?? null,
+            'box_office' => $data['BoxOffice'] ?? null,
             'production' => $data['Production'] ?? null,
             'website' => $data['Website'] ?? null,
             'slug' => strtolower($slug),

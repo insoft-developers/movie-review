@@ -12,7 +12,7 @@
         <div class="row" style="margin-top:-50px; margin-bottom:-60px;">
             <div class="col-md-12">
                 <div class="title-hd">
-                    <h2>Popular</h2>
+                    <h2>Box Office</h2>
                     <a href="{{ url('movie/popular') }}" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
                 </div>
                 <div class="tabs">
@@ -29,7 +29,7 @@
                                                     <img class="movie-poster" src="{{ $m->poster }}" alt="">
                                                 </div>
                                                 <div class="hvr-inner">
-                                                    <a href="{{ url('/movie/single/' . $m->slug) }}"> Read more <i
+                                                    <a href="{{ url('/movie/single/' . $m->slug) }}"> Download <i
                                                             class="ion-android-arrow-dropright"></i> </a>
                                                 </div>
                                                 <div class="title-in">
@@ -61,7 +61,7 @@
                                                     <img class="movie-poster" src="{{ $n->poster }}" alt="">
                                                 </div>
                                                 <div class="hvr-inner">
-                                                    <a href="{{ url('/movie/single/' . $n->slug) }}"> Read more <i
+                                                    <a href="{{ url('/movie/single/' . $n->slug) }}"> Download <i
                                                             class="ion-android-arrow-dropright"></i> </a>
                                                 </div>
                                                 <div class="title-in">

@@ -99,6 +99,7 @@
                 },{
                     data: 'is_popular',
                     name: 'is_popular',
+                    visible: false,
                 },{
                     data: 'is_new',
                     name: 'is_new',

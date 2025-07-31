@@ -17,8 +17,8 @@ class MovieController extends Controller
             $query = MovieList::query();
             $judul = 'All Movie';
         } elseif ($category == 'popular') {
-            $query = MovieList::where('is_popular', 1);
-            $judul = 'Popular Movie';
+            $query = MovieList::whereNotNull('box_office');
+            $judul = 'Box Office';
         } elseif ($category == 'anime') {
             // $query = MovieList::where('is_anime', 1)->get();
             $query = MovieList::where('genre', 'LIKE', '%Animation%')->where('country', 'LIKE', '%Japan%');

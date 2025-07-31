@@ -151,7 +151,7 @@
                             <div class="movie-item-style-2 movie-item-style-1">
                                 <img class="movie-poster" src="{{ $m->poster }}" alt="">
                                 <div class="hvr-inner">
-                                    <a href="{{ url('/movie/single/' . $m->slug) }}"> Read more <i
+                                    <a href="{{ url('/movie/single/' . $m->slug) }}"> Download <i
                                             class="ion-android-arrow-dropright"></i> </a>
                                 </div>
                                 <div class="mv-item-infor">
