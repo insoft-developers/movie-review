@@ -82,6 +82,8 @@ Route::group(['prefix' => 'mvadmin', 'middleware' => ['auth:admin']], function (
     Route::resource('/movie', BE_MovieController::class);
     Route::get('/movie_table', [BE_MovieController::class, 'movie_table'])->name('movie.table');
     Route::post('/get_sub_category', [BE_MovieController::class, 'get_sub_category']);
+    Route::post('/refresh_movie', [BE_MovieController::class, 'refresh_movie']);
+
 
     Route::resource('/category', CategoryController::class);
     Route::get('/category_table', [CategoryController::class, 'category_table'])->name('category.table');

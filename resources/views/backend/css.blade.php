@@ -1,4 +1,20 @@
 <style>
+    .spin-animation {
+        display: inline-block;
+        animation: spin 1s linear infinite;
+    }
+
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
     .select2-container--default .select2-results__option {
         color: black;
         /* or any visible color */

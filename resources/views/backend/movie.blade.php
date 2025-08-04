@@ -10,7 +10,13 @@
                     <div class="card mb-30">
                         <div class="card-body pt-30">
                             <h4 class="font-20 ">Movie List</h4>
-                            <a style="float:right;margin-top:-30px;" title="Edit Data" onclick="tambah()"
+                            <a style="float:right;margin-top:-30px;margin-left:10px;" title="Update Data" onclick="update()"
+                                href="javascript:void(0)" class="btn btn-insoft btn-info">
+                                <i class="icofont-refresh icon-insoft"></i>
+                            </a>
+                            <a id="loading-show" style="float: right;display:none;">Sedang mengupdate data, mohon jangan menekan tombol apapun.....</a>
+
+                            <a id="btn-tambah" style="float:right;margin-top:-30px;" title="Tambah Data" onclick="tambah()"
                                 href="javascript:void(0)" class="btn btn-insoft btn-success">
                                 <i class="icofont-plus-circle icon-insoft"></i>
                             </a>
@@ -33,12 +39,12 @@
                                                 <th>Rated</th>
                                                 <th>Released</th>
                                                 <th>Run Time</th>
-                                               
+
                                                 <th>Director</th>
                                                 <th>Actors</th>
                                                 <th>Plot</th>
                                                 <th>Banner/Popular</th>
-                                                
+
                                                 <th>New</th>
                                                 <th>Anime</th>
                                                 <th>Language</th>
@@ -73,7 +79,7 @@
     <!-- End Main Content -->
 
 
-    <div class="modal fade"  id="modal-tambah">
+    <div class="modal fade" id="modal-tambah">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="form-tambah" method="POST" enctype="multipart/form-data">
@@ -109,7 +115,7 @@
                                         <option value="">Pilih</option>
                                         <option value="movie">Movie</option>
                                         <option value="tv-show">TV Show</option>
-                                        {{-- @foreach($category as $c)
+                                        {{-- @foreach ($category as $c)
                                         <option value="{{ $c->slug }}">{{ $c->category_name }}</option>
                                         @endforeach --}}
 
@@ -119,7 +125,8 @@
                             <div class="form-group mb-4">
                                 <div class="form-group mb-4">
                                     <label for="sub_category" class="mb-2 bold">Sub Category</label>
-                                    <input readonly type="text" class="theme-input-style" id="sub_category" name="sub_category">
+                                    <input readonly type="text" class="theme-input-style" id="sub_category"
+                                        name="sub_category">
                                 </div>
                             </div>
                             <div class="form-group mb-4">
@@ -168,7 +175,7 @@
                             </div>
                             <div class="form-group mb-4">
                                 <label for="download" class="mb-2 bold d-block">Download Text</label>
-                                <textarea id="download" name="download"  placeholder="Enter Download Text"></textarea>
+                                <textarea id="download" name="download" placeholder="Enter Download Text"></textarea>
                             </div>
                             {{-- <div class="form-group mb-4">
                                 <label for="is_banner" class="mb-2 bold d-block">Use In Banner</label>

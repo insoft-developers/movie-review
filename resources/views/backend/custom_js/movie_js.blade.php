@@ -219,7 +219,7 @@
                     $("#imdb_votes").val(data.imdb_votes);
                     $("#type").val(data.type);
                     $("#dvd").val(data.dvd);
-                    $("#box_office").val(data.box_ofice);
+                    $("#box_office").val(data.box_office);
                     $("#production").val(data.production);
                     $("#website").val(data.website);
                     $("#slug").val(data.slug);
@@ -273,6 +273,32 @@
 
                 }
             });
+        }
+
+
+        function update() {
+           
+
+            var pop = confirm('Tombol ini adalah untuk mengupdate rating dan box office semua list movie, lanjutkan process...?');
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            if(pop === true) {
+                 var $icon = $('.icofont-refresh');
+                 $icon.addClass('spin-animation');
+                 $("#btn-tambah").hide();
+                 $("#loading-show").show();
+                $.ajax({
+                    url: "{{ url('mvadmin/refresh_movie') }}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {"_token":csrf_token},
+                    success: function(data) {
+                         $icon.removeClass('spin-animation');
+                          $("#btn-tambah").show();
+                          $("#loading-show").hide();
+                         table.ajax.reload(null, false);
+                    }
+                })
+            }
         }
     </script>
 @endif

@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+
 
 class BE_MovieController extends Controller
 {
@@ -40,7 +43,7 @@ class BE_MovieController extends Controller
 
         try {
             $id_arr = $input['imdb_id'];
-            $ids = explode(";", $id_arr);
+            $ids = explode(';', $id_arr);
 
             foreach ($ids as $id) {
                 $this->insertMovieIfNotExists($id);
@@ -127,12 +130,104 @@ class BE_MovieController extends Controller
         return true; // Berhasil insert
     }
 
+    protected function ratingUpdate($imdbId)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://www.omdbapi.com/?i=' . $imdbId . '&apikey=919aecb3',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ]);
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+            Log::warning("OMDb API error for $imdbId: $err");
+            return false;
+        }
+
+        $data = json_decode($response, true);
+
+        // Validasi minimum field
+        if (!isset($data['imdbID']) || !isset($data['imdbRating'])) {
+            Log::warning("Invalid OMDb response for $imdbId: " . json_encode($data));
+            return false;
+        }
+
+        // Normalisasi imdbVotes (hapus koma)
+        $votes = isset($data['imdbVotes']) ? str_replace(',', '', $data['imdbVotes']) : null;
+
+        // Update database
+        MovieList::where('imdb_id', $data['imdbID'])->update([
+            'imdb_rating' => $data['imdbRating'],
+            'ratings' => $data['imdbRating'],
+            'imdb_votes' => $votes,
+            'box_office' => $data['BoxOffice'] ?? null,
+        ]);
+
+        return true;
+    }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
         //
+    }
+
+    public function refresh_movie(Request $request)
+    {
+        try {
+            MovieList::chunk(50, function ($movies) {
+                foreach ($movies as $movie) {
+                    try {
+                        // Delay 200ms antar request (5 request per detik)
+                        usleep(200000);
+
+                        $response = Http::timeout(10)->get('https://www.omdbapi.com/', [
+                            'i' => $movie->imdb_id,
+                            'apikey' => '919aecb3',
+                        ]);
+
+                        if ($response->failed()) {
+                            Log::warning("OMDb failed for {$movie->imdb_id}");
+                            continue;
+                        }
+
+                        $data = $response->json();
+
+                        if (!isset($data['imdbID']) || !isset($data['imdbRating'])) {
+                            Log::warning("OMDb invalid response for {$movie->imdb_id}: " . json_encode($data));
+                            continue;
+                        }
+
+                        $votes = isset($data['imdbVotes']) ? str_replace(',', '', $data['imdbVotes']) : null;
+
+                        $movie->update([
+                            'imdb_rating' => $data['imdbRating'],
+                            'ratings' => $data['imdbRating'],
+                            'imdb_votes' => $votes,
+                            'box_office' => $data['BoxOffice'] ?? null,
+                        ]);
+                    } catch (\Exception $e) {
+                        Log::error("Error updating {$movie->imdb_id}: " . $e->getMessage());
+                    }
+                }
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Proses selesai',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi error: ' . $e->getMessage(),
+            ]);
+        }
     }
 
     /**
